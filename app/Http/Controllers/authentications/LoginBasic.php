@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Http\Controllers\authentications;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
+class LoginBasic extends Controller
+{
+  public function index()
+  {
+    return view('content.authentications.auth-login-basic');
+  }
+
+  public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        $user_exist = User::where('email', $request->email)->first();
+
+        if(!$user_exist){
+            return redirect()->back()->with('error', 'The provided credentials do not match our records.');
+        }
+
+        if(!$user_exist->is_active){
+            return redirect()->back()->with('error', 'User is deactivated');
+        }
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->intended('dashboard');
+            // $request->session()->regenerate();
+
+            // $user = Auth::user(); 
+            // $role = $user->role->name ?? null; 
+
+            // if ($role === 'admin') {
+            //     return redirect()->intended('dashboard');
+            // } elseif ($role == 'customer') {
+            //     return redirect()->intended('customer/dashboard');
+            // } elseif ($role == 'warehouse') {
+            //     return redirect()->intended('warehouse/dashboard');
+            // } else {
+            //     Auth::logout();
+            //     return redirect()->route('login')->with('error', 'Unauthorized role');
+        
+            // }
+            // return redirect()->back()->withErrors([
+            //     'login' => 'Not a valid user. Please check your credentials.',
+            // ])->withInput();
+        }
+         return redirect()->back()->with('error', 'Not a valid user.');
+    }
+
+    public function show(Request  $request){
+        $userId = session('user_id');
+
+        if (!$userId) {
+            return redirect()->route('login')->with('error', 'Please log in first.');
+        }
+    
+        $user = User::find($userId);
+    
+        if ($user) {
+            return view('dashboard', compact('user'));
+        }
+        
+        // $role = $user->role->name ?? null; 
+
+        // if ($role === 'admin') {
+        //     return redirect()->intended('dashboard');
+        // } elseif ($role == 'sales') {
+        //     return redirect()->intended('sales/dashboard');
+        // } elseif ($role == 'warehouse') {
+        //     return redirect()->intended('warehouse/dashboard');
+        // } else {
+        //     Auth::logout();
+        //     return redirect()->route('login')->with('error', 'Unauthorized role');
+    
+        // }
+    
+        return redirect()->route('login')->with('error', 'User not found.');
+    }
+    
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
+}

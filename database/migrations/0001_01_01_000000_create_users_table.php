@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('usercode')->nullable();
+            $table->string('name')->nullable();
+            $table->string('usercode')->nullable()->change();
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('email')->unique();
@@ -25,10 +25,11 @@ return new class extends Migration
             $table->string('postal')->nullable();
             $table->text('about')->nullable();
             $table->boolean('is_active')->default(true);
-            //$table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('set null');
+            $table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('set null');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role')->default('customer');
+            $table->string('role_id')->nullable();
+            $table->unsignedBigInteger('warehouse_id')->default(1)->change(); // Set a default value
             $table->rememberToken();
             $table->timestamps();
         });

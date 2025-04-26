@@ -31,7 +31,8 @@ class User extends Authenticatable
     'about',
     'is_active',
     'role_id',
-    'role'
+    'role',
+    'warehouse_id',
   ];
 
   /**
@@ -65,24 +66,23 @@ class User extends Authenticatable
       'password' => 'hashed',
     ];
   }
-  public function setPasswordAttribute($value)
-  {
-      $this->attributes['password'] = bcrypt($value);
-  }
+  // public function setPasswordAttribute($value)
+  // {
+  //     $this->attributes['password'] = bcrypt($value);
+  // }
 
 
   public function role()
   {
-    return $this->belongsTo(Role::class);
+      return $this->belongsTo(Role::class);
   }
-
   public function warehouse()
   {
     return $this->hasOne(Warehouse::class);
   }
 
-  public function users()
-  {
-    return $this->hasOne(users::class);
-  }
+  // public function users()
+  // {
+  //     return $this->belongsTo(User::class);
+  // }
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\authentications;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginBasic extends Controller
@@ -32,27 +32,25 @@ class LoginBasic extends Controller
             return redirect()->back()->with('error', 'User is deactivated');
         }
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->intended('dashboard');
-            // $request->session()->regenerate();
+       if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+             $request->session()->regenerate();
 
-            // $user = Auth::user(); 
-            // $role = $user->role->name ?? null; 
+             $user = Auth::user(); 
+             $role = $user->role->name ?? null; 
 
-            // if ($role === 'admin') {
-            //     return redirect()->intended('dashboard');
-            // } elseif ($role == 'customer') {
-            //     return redirect()->intended('customer/dashboard');
-            // } elseif ($role == 'warehouse') {
-            //     return redirect()->intended('warehouse/dashboard');
-            // } else {
-            //     Auth::logout();
-            //     return redirect()->route('login')->with('error', 'Unauthorized role');
-        
-            // }
-            // return redirect()->back()->withErrors([
-            //     'login' => 'Not a valid user. Please check your credentials.',
-            // ])->withInput();
+             if ($role === 'admin') {
+                 return redirect()->intended('dashboard');
+             } elseif ($role == 'customer') {
+                return redirect()->intended('user/dashboard');
+             } elseif ($role == 'warehouse') {
+                 return redirect()->intended('warehouse/dashboard');
+             } else {
+                 Auth::logout();
+                 return redirect()->route('login')->with('error', 'Unauthorized role');
+             }
+             return redirect()->back()->withErrors([
+                'login' => 'Not a valid user. Please check your credentials.',
+             ])->withInput();
         }
          return redirect()->back()->with('error', 'Not a valid user.');
     }

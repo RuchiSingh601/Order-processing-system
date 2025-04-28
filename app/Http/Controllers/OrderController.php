@@ -89,95 +89,73 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Error creating order: ' . $e->getMessage());
         }
         Log::info('5 : Complated');
-        // $order = new Order();
-        //         $order->order_number = $request->order_number;
-        //         $order->order_date = $request->order_date;
-        //         $order->warehouse_id = $request->warehouse_id;
-        //         $order->user_id = $request->user_id;
-        //         $order->payment_method = $request->payment_method;
-        //         $order->status = $request->status ?? 'pending';
-        //         $order->total_amount = 0; 
-        //        // $order->save();
-
-        //         $totalAmount = 0;
-
-        // foreach ($request->products as $product) {
-        //          $order->items()->create([
-        //         'product_id' => $product['product_id'],
-        //         'price' => $product['price'],
-        //         'quantity' => $product['quantity'],
-        //         'other_charges' => $product['other_charges'],
-        //         'total_charges' => $product['total_charges'],
-        //     ]);
-    
-        //     $totalAmount += $product['total_charges'];
-        // }
-    
-        // $order->total_amount = $totalAmount;
-        // $order->save();
-    
+      
         return redirect()->route('order.index')->with('success', 'Order created successfully.');
     }
     public function edit($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('orderItems')->findOrFail($id);
         $warehouses = Warehouse::all();
         $products = Product::all();
-       // $paymentMethods = PaymentMethod::all();
+        $paymentMethods = PaymentMethod::all();
         $orderItems = \App\Models\OrderItem::where('order_id', $order->id)->get();
 
 
-        return view('orders.edit', compact('order', 'warehouses', 'products',  'orderItems'));
+        return view('orders.edit', compact('order', 'warehouses', 'products',  'orderItems' , 'paymentMethods'));
     }
 
     public function update(Request $request, $id)
     {
-    // Validate the incoming request data
-    $validated = $request->validate([
-        'order_number' => 'required|string|max:255',
-        'order_date' => 'required|date',
-        'warehouse_id' => 'required|integer|exists:warehouses,id',
-        'products' => 'required|array',
-        // 'products.*.product_id' => 'required|integer|exists:products,id',
-        // 'products.*.price' => 'required|numeric',
-        // 'products.*.quantity' => 'required|integer|min:1',
-        // 'products.*.other_charges' => 'nullable|numeric',
-        // 'products.*.total_charges' => 'required|numeric',
-        //'paymentMethods' => 'required',
-         'payment_id' => 'required|integer|exists:payment_methods,id',
-        'status' => 'required|string|in:pending,completed',
-        'total_amount' => 'required|numeric',
-    ]);
-
-    // Find the order by ID
-    $order = Order::findOrFail($id);
-
-    // Update order header fields
-    $order->order_number = $validated['order_number'];
-    $order->order_date = $validated['order_date'];
-    $order->warehouse_id = $validated['warehouse_id'];
-    $order->payment_id = $validated['payment_id'];
-    $order->status = $validated['status'];
-    $order->total_amount = $validated['total_amount'];
-    $order->save();
-
-    // Delete existing order items (assuming full replacement)
-    $order->orderItems()->delete();
-
-    // Recreate order items
-    foreach ($validated['products'] as $product) {
-        $order->orderItems()->create([
-            'product_id' => $product['product_id'],
-            'price' => $product['price'],
-            'quantity' => $product['quantity'],
-            'other_charges' => $product['other_charges'] ?? 0,
-            'total_charges' => $product['total_charges'],
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'order_number' => 'required|string|max:255',
+            'order_date' => 'required|date',
+            'warehouse_id' => 'required|integer|exists:warehouses,id',
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|integer|exists:products,id',
+            'products.*.price' => 'required|numeric',
+            'products.*.quantity' => 'required|integer|min:1',
+            'products.*.other_charges' => 'nullable|numeric',
+            'products.*.total_charges' => 'required|numeric',
+            'payment_id' => 'required|integer|exists:paymentmethods,id',
+            'status' => 'required|string|in:pending,completed',
+            'total_amount' => 'required|numeric',
         ]);
+    
+        // Find the order by ID
+        $order = Order::findOrFail($id);
+    
+        // Update order header fields
+        $order->order_date = $validated['order_date'];
+        $order->warehouse_id = $validated['warehouse_id'];
+        $order->payment_id = $validated['payment_id'];
+        $order->status = $validated['status'] == 'pending' ? 1 : 0;
+        $order->total_amount = $validated['total_amount'];
+        $order->save();
+    
+        // Get the currently authenticated user
+        $user = auth()->user();
+    
+        // Delete existing order items (assuming full replacement)
+        $order->orderItems()->delete();
+    
+        // Recreate order items
+        foreach ($validated['products'] as $product) {
+            OrderItem::create([
+                'warehouse_id' => $request->warehouse_id,
+                'order_id' => $order->id,
+                'product_id' => $product['product_id'],
+                'user_id' => $user->id,
+                'price' => $product['price'],
+                'quantity' => $product['quantity'],
+                'other_charges' => $product['other_charges'] ?? 0,
+                'total_charges' => $product['total_charges'],
+                'delivery_date' => now(),
+            ]);
+        }
+    
+        return redirect()->route('order.index')->with('success', 'Order updated successfully.');
     }
-
-    return redirect()->route('order.index')->with('success', 'Order updated successfully.');
-}
-
 
 public function destroy($id)
 {

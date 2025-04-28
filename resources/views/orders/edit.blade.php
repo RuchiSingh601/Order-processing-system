@@ -91,12 +91,12 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            @else
-    <tr>
-        <td colspan="6" class="text-center">No products added yet.</td>
-    </tr>
-@endif
-                        </tbody>
+                             @else
+                                <tr>
+                                    <td colspan="6" class="text-center">No products added yet.</td>
+                                </tr>
+                            @endif
+                      </tbody>
                     </table>
                 </div>
             </div>
@@ -139,4 +139,62 @@
         </form>
     </div>   
 </div>
+
+
+{{-- Script --}}
+<script>
+    let rowIndex = 1;
+    let totalAmount = "";
+
+    function addRow() {
+        const table = document.querySelector('#product_table tbody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>
+                <select name="products[${rowIndex}][product_id]" class="form-control product-select" required>
+                    <option value="">Select</option>
+                    @foreach($products as $product)
+                        <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
+                    @endforeach
+                </select>
+            </td>
+            <td><input type="text" name="products[${rowIndex}][price]" class="form-control price" readonly></td>
+            <td><input type="number" name="products[${rowIndex}][quantity]" class="form-control quantity" value="1"></td>
+            <td><input type="number" name="products[${rowIndex}][other_charges]" class="form-control other_charges" value="0"></td>
+            <td><input type="text" name="products[${rowIndex}][total_charges]" class="form-control total" readonly></td>
+            <td><button type="button" onclick="removeRow(this)" class="btn btn-danger btn-sm">x</button></td>
+        `;
+        table.appendChild(row);
+        rowIndex++;
+    }
+
+    function removeRow(btn) {
+        btn.closest('tr').remove();
+    }
+
+    document.addEventListener('change', function(e) {
+        const row = e.target.closest('tr');
+        if (!row) return;
+
+        const product = row.querySelector('.product-select');
+        const price = product.options[product.selectedIndex]?.dataset?.price || 0;
+        const quantity = parseFloat(row.querySelector('.quantity').value) || 1;
+        const other = parseFloat(row.querySelector('.other_charges').value) || 0;
+
+        row.querySelector('.price').value = price;
+        row.querySelector('.total').value = ((price * quantity) + other).toFixed(2);
+
+        calculateTotalAmount();
+    });
+
+    function calculateTotalAmount() {
+        let totalAmount = 0;
+        const rows = document.querySelectorAll('#product_table tbody tr');
+        rows.forEach(row => {
+            const total = parseFloat(row.querySelector('.total').value) || 0;
+            totalAmount += total;
+        });
+        document.getElementById('totalAmount').value = totalAmount.toFixed(2);
+    }
+</script>
 @endsection

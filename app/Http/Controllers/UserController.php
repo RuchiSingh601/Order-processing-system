@@ -42,7 +42,7 @@ class UserController extends Controller
             'role_id' => $request->role_id,
             'warehouse_id' => $request->warehouse_id, // important!
             'usercode' => uniqid('USR'), 
-            'is_active' => $user->is_active == 'Active' ? 1 : 0
+            'is_active' => $request->is_active == 'Active' ? 1 : 0
         ]);
     
         return redirect()->route('user.index')->with('success', 'user created successfully.');

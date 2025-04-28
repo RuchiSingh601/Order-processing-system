@@ -126,7 +126,7 @@ Route::get('/user/create', [UserController::class, 'create'])->name('user.create
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
 Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-Route::put('/user', [UserController::class, 'update'])->name('user.update');
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
 
 
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
@@ -176,10 +176,11 @@ Route::resource('products', ProductController::class);
 Route::resource('items', ItemController::class);
 Route::get('/items', [OrderItemController::class, 'index']);
 
-Route::get('/order', [OrderController::class, 'create'])->name('order.create');
+Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+Route::get('/order', [OrderController::class, 'create'])->name('order.create');     
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
-
 Route::resource('order', OrderController::class);
-// Route::get('/items', [OrderItemController::class, 'index']);
+
+Route::get('/items', [OrderItemController::class, 'index']);
 
 Route::resource('warehouses', WarehouseController::class);

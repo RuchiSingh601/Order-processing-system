@@ -5,75 +5,71 @@
       "name": "Dashboards",
       "icon": "menu-icon tf-icons bx bx-home-smile",
       "slug": "dashboard",
-      "badge": [
-        "danger",
-        "5"
-      ],
       "submenu": [
         {
           "url": "/user",
           "name": "User",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         },
         {
           "url": "/shades ",
           "name": "Shades ",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         },
         {
           "url": "/Patterns ",
           "name": "Patterns",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         },
         {
           "url": "/Sizes ",
           "name": "Sizes ",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         },
         {
           "url": "/embroideries ",
           "name": "Embroidery ",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         },
         {
           "url": "/products ",
           "name": "Product ",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         },
         {
           "url": "/order ",
           "name": "Order ",
-          "slug": "dashboard-crm"
+          "slug": "dashboard-crm",
+          "role": [
+            "customer",
+            "admin"
+          ]
         },
         {
           "url": "/warehouses ",
           "name": "Warehouse ",
-          "slug": "dashboard-crm"
-        }
-      ]
-    },
-    {
-      "name": "Authentications",
-      "icon": "menu-icon tf-icons bx bx-lock-open-alt",
-      "slug": "auth",
-      "submenu": [
-        {
-          "url": "auth/login-basic",
-          "name": "Login",
-          "slug": "auth-login-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "auth/register-basic",
-          "name": "Register",
-          "slug": "auth-register-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "auth/forgot-password-basic",
-          "name": "Forgot Password",
-          "slug": "auth-forgot-password-basic",
-          "target": "_blank"
+          "slug": "dashboard-crm",
+          "role": [
+            "admin"
+          ]
         }
       ]
     }

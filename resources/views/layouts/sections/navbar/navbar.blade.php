@@ -6,9 +6,9 @@ $navbarDetached = ($navbarDetached ?? '');
 @endphp
 
 <!-- Navbar -->
-@if(isset($navbarDetached) && $navbarDetached == 'navbar-detached')
+<!-- @if(isset($navbarDetached) && $navbarDetached == 'navbar-detached')
 <nav class="layout-navbar {{$containerNav}} navbar navbar-expand-xl {{$navbarDetached}} align-items-center bg-navbar-theme" id="layout-navbar">
-@endif
+@endif -->
 @if(isset($navbarDetached) && $navbarDetached == '')
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
   <div class="{{$containerNav}}">
@@ -35,19 +35,19 @@ $navbarDetached = ($navbarDetached ?? '');
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
-        <div class="navbar-nav align-items-center">
+        <!-- <div class="navbar-nav align-items-center">
           <div class="nav-item d-flex align-items-center">
             <i class="bx bx-search bx-md"></i>
             <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search..." aria-label="Search...">
           </div>
-        </div>
+        </div> -->
         <!-- /Search -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
+<!-- 
           <!-- Place this tag where you want the button to render. -->
-          <li class="nav-item lh-1 me-4">
+          <!-- <li class="nav-item lh-1 me-4">
             <a class="github-button" href="{{config('variables.repository')}}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themeselection/sneat-html-laravel-admin-template-free on GitHub">Star</a>
-          </li>
+          </li> -->
 
           <!-- User -->
           <!-- <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -96,12 +96,12 @@ $navbarDetached = ($navbarDetached ?? '');
               <li>
                 <div class="dropdown-divider my-1"></div>
               </li>
-              <li> -->
-                <a  href="{{ route('logout') }}">
-                  <!-- <i class="bx bx-power-off bx-md me-3"></i> -->
-                  <span>Log Out</span>
-                </a>
-              </li>
+              <li> --> 
+              <li>
+              <a href="{{ route('logout') }}" style="display: inline-block; margin: 20px 30px;">
+                <span>LogOut</span>
+              </a>
+            </li>
             </ul>
           </li>
           <!--/ User -->

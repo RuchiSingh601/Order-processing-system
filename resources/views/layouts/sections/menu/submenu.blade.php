@@ -2,6 +2,8 @@
 use Illuminate\Support\Facades\Route;
 @endphp
 
+
+
 <ul class="menu-sub">
   @if (isset($menu))
     @foreach ($menu as $submenu)
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\Route;
       $activeClass = null;
       $active = 'active open';
       $currentRouteName = Route::currentRouteName();
+      $user = Auth::user(); 
+      $role = $user->role->name ?? null; 
 
       if ($currentRouteName === $submenu->slug) {
           $activeClass = 'active';
@@ -31,6 +35,7 @@ use Illuminate\Support\Facades\Route;
       }
     @endphp
 
+    @if (in_array($role, $submenu->role))
       <li class="menu-item {{$activeClass}}">
         <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}" class="{{ isset($submenu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($submenu->target) and !empty($submenu->target)) target="_blank" @endif>
           @if (isset($submenu->icon))
@@ -47,6 +52,7 @@ use Illuminate\Support\Facades\Route;
           @include('layouts.sections.menu.submenu',['menu' => $submenu->submenu])
         @endif
       </li>
+      @endif
     @endforeach
   @endif
 </ul>

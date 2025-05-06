@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name'); // e.g., Round Neck with 3 buttons
             $table->string('code')->nullable(); // optional unique code
             $table->text('description')->nullable();
+            $table->decimal('base_price', 10, 2)->default(0);
             $table->string('status')->default('Active');
             $table->unsignedBigInteger('warehouse_id')->nullable()->change();
 

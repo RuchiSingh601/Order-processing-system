@@ -12,7 +12,8 @@ use App\Http\Controllers\pages\AccountSettingsNotifications;
 use App\Http\Controllers\pages\AccountSettingsConnections;
 use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\pages\MiscUnderMaintenance;
-use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\authentications\UserLogin;
+use App\Http\Controllers\authentications\AdminLogin;
 use App\Http\Controllers\authentications\RegisterBasic;
 use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\cards\CardBasic;
@@ -116,9 +117,17 @@ Route::get('/tables/basic', [TablesBasic::class, 'index'])->name('tables-basic')
 // Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 
 
-// authentication
-Route::get('/login', [LoginBasic::class, 'index'])->middleware('guest')->name('login');
-Route::post('/login', [LoginBasic::class, 'login'])->name('login.perform');
+// User Login
+Route::get('/', [UserLogin::class, 'show'])->middleware('auth')->name('/');
+Route::get('/login', [UserLogin::class, 'index'])->middleware('guest')->name('login');
+Route::post('/login', [UserLogin::class, 'login'])->name('login.perform');
+Route::get('/logout', [UserLogin::class, 'logout'])->name('logout');
+
+//Admin Login
+Route::get('/admin', [AdminLogin::class, 'show'])->middleware('auth')->name('/');
+Route::get('/adminlogin', [AdminLogin::class, 'index'])->middleware('guest')->name('adminlogin');
+Route::post('/adminlogin', [AdminLogin::class, 'login'])->name('adminlogin.perform');
+
 
 // Route::middleware(['auth', 'is_admin'])->group(function () {
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -131,13 +140,9 @@ Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update')
 
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 
-Route::get('/logout', [LoginBasic::class, 'logout'])->name('logout');
-
-Route::get('/', [LoginBasic::class, 'show'])->middleware('auth')->name('/');
-
 // Dashboard route
 Route::get('/dashboard', [Analytics::class, 'index'])->middleware('auth')->name('dashboard-analytics');
-Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+Route::get('/user/dashboard', [UserController::class, 'dashbord'])->name('user.dashboard');
 Route::get('/warehouse/dashboard', [WarehouseController::class, 'index'])->name('warehouse.dashboard');
 
 Route::middleware(['auth'])->group(function () {

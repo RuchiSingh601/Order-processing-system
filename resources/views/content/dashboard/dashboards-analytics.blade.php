@@ -22,9 +22,9 @@
         <div class="col-sm-7">
           <div class="card-body">
             <h5 class="card-title text-primary mb-3">Congratulations</h5>
-            <p class="mb-6">You have done 72% more sales today.<br>Check your new badge in your profile.</p>
+            <p class="mb-6">Welcome to Admin Login. <br>Order Processing System Software.</p>
 
-            <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+            <!-- <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a> -->
           </div>
         </div>
         <div class="col-sm-5 text-center text-sm-left">
@@ -35,7 +35,8 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-4 col-md-4 order-1">
+
+  <!-- <div class="col-lg-4 col-md-4 order-1">
     <div class="row">
       <div class="col-lg-6 col-md-12 col-6 mb-6">
         <div class="card h-100">
@@ -84,9 +85,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Total Revenue -->
-  <div class="col-12 col-xxl-8 order-2 order-md-3 order-xxl-2 mb-6">
+  <!-- <div class="col-12 col-xxl-8 order-2 order-md-3 order-xxl-2 mb-6">
     <div class="card">
       <div class="row row-bordered g-0">
         <div class="col-lg-8">
@@ -126,9 +127,9 @@
                   <li><a class="dropdown-item" href="javascript:void(0);">2019</a></li>
                 </ul>
               </div>
-            </div>
+            </div> -->
 
-            <div id="growthChart"></div>
+            <!-- <div id="growthChart"></div>
             <div class="text-center fw-medium my-6">62% Company Growth</div>
 
             <div class="d-flex gap-3 justify-content-between">
@@ -165,9 +166,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!--/ Total Revenue -->
-  <div class="col-12 col-md-8 col-lg-12 col-xxl-4 order-3 order-md-2">
+  <!-- <div class="col-12 col-md-8 col-lg-12 col-xxl-4 order-3 order-md-2">
     <div class="row">
       <div class="col-6 mb-6">
         <div class="card h-100">
@@ -214,8 +215,8 @@
             <small class="text-success fw-medium"><i class='bx bx-up-arrow-alt'></i> +28.14%</small>
           </div>
         </div>
-      </div>
-      <div class="col-12 mb-6">
+      </div> -->
+      <!-- <div class="col-12 mb-6">
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center flex-sm-row flex-column gap-10">
@@ -235,11 +236,11 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="row">
+  </div> -->
+<!-- </div>
+<div class="row"> -->
   <!-- Order Statistics -->
-  <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-6">
+  <!-- <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-6">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between">
         <div class="card-title mb-0">
@@ -256,8 +257,8 @@
             <a class="dropdown-item" href="javascript:void(0);">Share</a>
           </div>
         </div>
-      </div>
-      <div class="card-body">
+      </div> -->
+      <!-- <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-6">
           <div class="d-flex flex-column align-items-center gap-1">
             <h3 class="mb-1">8,258</h3>
@@ -278,8 +279,8 @@
               <div class="user-progress">
                 <h6 class="mb-0">82.5k</h6>
               </div>
-            </div>
-          </li>
+            </div> -->
+          <!-- </li>
           <li class="d-flex align-items-center mb-5">
             <div class="avatar flex-shrink-0 me-3">
               <span class="avatar-initial rounded bg-label-success"><i class='bx bx-closet'></i></span>
@@ -297,8 +298,8 @@
           <li class="d-flex align-items-center mb-5">
             <div class="avatar flex-shrink-0 me-3">
               <span class="avatar-initial rounded bg-label-info"><i class='bx bx-home-alt'></i></span>
-            </div>
-            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+            </div> -->
+            <!-- <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
               <div class="me-2">
                 <h6 class="mb-0">Decor</h6>
                 <small>Fine Art, Dining</small>
@@ -318,18 +319,18 @@
                 <small>Football, Cricket Kit</small>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">99</h6>
-              </div>
+                <h6 class="mb-0">99</h6> -->
+              <!-- </div>
             </div>
           </li>
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
   <!--/ Order Statistics -->
 
   <!-- Expense Overview -->
-  <div class="col-md-6 col-lg-4 order-1 mb-6">
+  <!-- <div class="col-md-6 col-lg-4 order-1 mb-6">
     <div class="card h-100">
       <div class="card-header nav-align-top">
         <ul class="nav nav-pills" role="tablist">
@@ -350,8 +351,8 @@
             <div class="d-flex mb-6">
               <div class="avatar flex-shrink-0 me-3">
                 <img src="{{asset('assets/img/icons/unicons/wallet.png')}}" alt="User">
-              </div>
-              <div>
+              </div> -->
+              <!-- <div>
                 <p class="mb-0">Total Balance</p>
                 <div class="d-flex align-items-center">
                   <h6 class="mb-0 me-1">$459.10</h6>
@@ -375,12 +376,12 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div> -->
+  <!-- </div> -->
   <!--/ Expense Overview -->
 
   <!-- Transactions -->
-  <div class="col-md-6 col-lg-4 order-2 mb-6">
+  <!-- <div class="col-md-6 col-lg-4 order-2 mb-6">
     <div class="card h-100">
       <div class="card-header d-flex align-items-center justify-content-between">
         <h5 class="card-title m-0 me-2">Transactions</h5>
@@ -394,8 +395,8 @@
             <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
           </div>
         </div>
-      </div>
-      <div class="card-body pt-4">
+      </div> -->
+      <!-- <div class="card-body pt-4">
         <ul class="p-0 m-0">
           <li class="d-flex align-items-center mb-6">
             <div class="avatar flex-shrink-0 me-3">
@@ -410,8 +411,8 @@
                 <h6 class="fw-normal mb-0">+82.6</h6> <span class="text-muted">USD</span>
               </div>
             </div>
-          </li>
-          <li class="d-flex align-items-center mb-6">
+          </li> -->
+          <!-- <li class="d-flex align-items-center mb-6">
             <div class="avatar flex-shrink-0 me-3">
               <img src="{{asset('assets/img/icons/unicons/wallet.png')}}" alt="User" class="rounded">
             </div>
@@ -424,8 +425,8 @@
                 <h6 class="fw-normal mb-0">+270.69</h6> <span class="text-muted">USD</span>
               </div>
             </div>
-          </li>
-          <li class="d-flex align-items-center mb-6">
+          </li> -->
+          <!-- <li class="d-flex align-items-center mb-6">
             <div class="avatar flex-shrink-0 me-3">
               <img src="{{asset('assets/img/icons/unicons/chart.png')}}" alt="User" class="rounded">
             </div>
@@ -466,8 +467,8 @@
                 <h6 class="fw-normal mb-0">+203.33</h6> <span class="text-muted">USD</span>
               </div>
             </div>
-          </li>
-          <li class="d-flex align-items-center">
+          </li> -->
+          <!-- <li class="d-flex align-items-center">
             <div class="avatar flex-shrink-0 me-3">
               <img src="{{asset('assets/img/icons/unicons/cc-warning.png')}}" alt="User" class="rounded">
             </div>
@@ -484,7 +485,7 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
   <!--/ Transactions -->
-</div>
+<!-- </div> -->
 @endsection

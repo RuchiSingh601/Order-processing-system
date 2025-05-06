@@ -36,6 +36,13 @@
                     <label class="form-label ms-5">Additional Cost</label>
                     <input type="text" name="additional_cost" class="form-control ms-5" value="{{ old('additional_cost', $embroidery->additional_cost) }}">
                 </div>
+                
+                    <div class="col-md-5">
+                        <label class="ms-5">Base Price</label>
+                        <input type="number" step="0.01" name="base_price" class="form-control ms-5" value="{{ old('base_price', $embroidery->base_price ?? '') }}" required>
+                    </div>
+                </div>
+             <div class="row mb-3 ms-1 me-1">
                 <div class="col-md-5">
                     <!-- <label class="form-label ms-5">Status:</label> -->
                     <!-- <select name="status" class="form-control ms-5" required>

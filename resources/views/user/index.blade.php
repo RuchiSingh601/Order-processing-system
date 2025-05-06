@@ -33,12 +33,15 @@
             <td>{{ $user->role ? $user->role->name : 'N/A' }}</td>
             <td>{{ $user->is_active == 1 ? 'Active' : "In-Active" }}</td>
             <td>
-             <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+             <a href="{{ route('user.edit', $user->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
                 
                 <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')" style="background: none; border: none; padding: 0;" title="Delete">
+                        <i class="bx bx-trash text-danger" style="font-size: 1.2rem;"></i>
+                     </button>
                 </form>
             </td>
         </tr>

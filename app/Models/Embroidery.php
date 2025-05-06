@@ -8,7 +8,7 @@ class Embroidery extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['warehouse_id', 'embroidery_name', 'additional_cost', 'status'];
+    protected $fillable = ['warehouse_id', 'embroidery_name', 'additional_cost', 'base_price' ,'status'];
 
     public function warehouse()
     {

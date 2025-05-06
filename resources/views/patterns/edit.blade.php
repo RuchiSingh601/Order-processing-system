@@ -43,6 +43,12 @@
                 </div>
             </div>
             <div class="row mb-3 ms-1 me-1">
+                    <div class="col-md-5">
+                        <label class="ms-5">Base Price</label>
+                        <input type="number" step="0.01" name="base_price" class="form-control ms-5" value="{{ old('base_price', $pattern->base_price ?? '') }}" required>
+                    </div>
+            </div>
+            <div class="row mb-3 ms-1 me-1">
                 <div class="col-md-5">
                     <!-- <label class="form-label ms-5">Status:</label>
                     <select name="status" class="form-control ms-5" required>

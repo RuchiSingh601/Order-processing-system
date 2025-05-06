@@ -8,11 +8,11 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginBasic extends Controller
+class AdminLogin extends Controller
 {
   public function index()
   {
-    return view('content.authentications.auth-login-basic');
+    return view('content.authentications.auth-admin-login');
   }
 
   public function login(Request $request)
@@ -40,13 +40,9 @@ class LoginBasic extends Controller
 
              if ($role === 'admin') {
                  return redirect()->intended('dashboard');
-             } elseif ($role == 'customer') {
-                return redirect()->intended('user/dashboard');
-             } elseif ($role == 'warehouse') {
-                 return redirect()->intended('warehouse/dashboard');
              } else {
                  Auth::logout();
-                 return redirect()->route('login')->with('error', 'Unauthorized role');
+                 return redirect()->route('adminlogin')->with('error', 'Unauthorized role');
              }
              return redirect()->back()->withErrors([
                 'login' => 'Not a valid user. Please check your credentials.',
@@ -67,32 +63,11 @@ class LoginBasic extends Controller
         if ($user) {
             return view('dashboard', compact('user'));
         }
-        
-        // $role = $user->role->name ?? null; 
-
-        // if ($role === 'admin') {
-        //     return redirect()->intended('dashboard');
-        // } elseif ($role == 'sales') {
-        //     return redirect()->intended('sales/dashboard');
-        // } elseif ($role == 'warehouse') {
-        //     return redirect()->intended('warehouse/dashboard');
-        // } else {
-        //     Auth::logout();
-        //     return redirect()->route('login')->with('error', 'Unauthorized role');
-    
-        // }
+       
     
         return redirect()->route('login')->with('error', 'User not found.');
     }
     
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
-    }
+    
 }

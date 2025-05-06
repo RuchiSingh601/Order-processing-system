@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        'warehouse_id',
-        'pattern_id',
-        'shade_id',
-        'size_id',
-        'embroidery_id',
-        'is_embroidery',
+        // 'warehouse_id',
+        // 'pattern_id',
+        // 'shade_id',
+        // 'size_id',
+        // 'embroidery_id',
+        // 'is_embroidery',
         'name',
         'price',
-        'embroidery_charges',
+        // 'embroidery_charges',
     ];
     public function warehouse() {
         return $this->belongsTo(Warehouse::class);

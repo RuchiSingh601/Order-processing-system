@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shade extends Model
 {
-    protected $fillable = ['name', 'code', 'description', 'status', 'warehouse_id'];
+    protected $fillable = ['name', 'code', 'description', 'status', 'base_price' ,'warehouse_id'];
 }

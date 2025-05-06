@@ -39,13 +39,19 @@
                 <textarea name="description" class="form-control ms-5"></textarea>
                 </div>
             </div>
- 
+            <div class="row mb-3 ms-1 me-1">
+            <div class="col-md-5">
+                <label class="ms-1">Base Price</label>
+                <input type="number" name="base_price" class="form-control">
+            </div>
+            </div>
         <div class="row mb-3 ms-1 me-1">
             <div class="col-md-5">
              <input type="checkbox" class="form-check-input" id="status" name="status" value="Active">
             <label class="form-check-label" for="status">Is Active</label>
             </div>
         </div>
+        
     <div class="d-flex justify-content-center px-4">
     <button type="submit" class="btn btn-primary mt-3">Add Shades</button>
     </div>

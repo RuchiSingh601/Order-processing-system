@@ -27,6 +27,7 @@ class EmbroideryController extends Controller
             'warehouse_id' => 'required|exists:warehouses,id',
             'embroidery_name' => 'required|string|max:255',
             'additional_cost' => 'required|numeric|min:0',
+            'base_price' => 'required|numeric|min:0',
         ]);
 
         $request->merge([
@@ -60,6 +61,7 @@ class EmbroideryController extends Controller
             'warehouse_id' => 'required|exists:warehouses,id',
             'embroidery_name' => 'required|string|max:255',
             'additional_cost' => 'required|numeric|min:0',
+            'base_price' => 'required|numeric|min:0',
             'status' => 'required|in:Y,N',
         ]);
 

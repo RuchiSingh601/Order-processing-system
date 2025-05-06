@@ -22,21 +22,19 @@ class SizeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'base_price' => 'required|numeric|min:0',
         ]);
         Size::create([
             'name' => $request->name,
             'code' => $request->code,
             'description' => $request->description,
+            'base_price' => $request->base_price,
             'status' => $request->status,
             'warehouse_id' => auth()->user()->warehouse_id, // important!
-        ]);
-        $request->merge([
             'status' => $request->status == 'Active' ? 'Y' : 'N',
         ]);
 
-        Size::create($request->all());
-    
         return redirect()->route('Sizes.index')->with('success', 'Size added successfully!');
     }
 
@@ -49,18 +47,20 @@ class SizeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->merge([
-            'status' => $request->status == 'Active' ? 'Y' : 'N',
-        ]);
-    
+        $size = Size::findOrFail($id);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:50',
             'warehouse_id' => 'required|exists:warehouses,id',
+            'base_price' => 'required|numeric|min:0',
             // Add more validations if needed
         ]);
     
-        $size = Size::findOrFail($id);
+        $request->merge([
+            'status' => $request->status == 'Active' ? 'Y' : 'N',
+        ]);
+    
         $size->update($request->all());
         
     return redirect()->route('Sizes.index')->with('success', 'Size updated!');

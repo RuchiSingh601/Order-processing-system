@@ -17,13 +17,13 @@
         <div class="card-body">
           <!-- Logo -->
           <div class="app-brand justify-content-center">
-            <a href="{{url('/')}}" class="app-brand-link gap-2">
+            <!-- <a href="{{url('/')}}" class="app-brand-link gap-2"> -->
               <!-- <span class="app-brand-logo demo">@include('_partials.macros',["width"=>25,"withbg"=>'var(--bs-primary)'])</span> -->
               <!-- <span class="app-brand-text demo text-heading fw-bold">{{config('variables.templateName')}}</span> -->
-            </a>
+            <!-- </a> -->
           </div>
           <!-- /Logo -->
-          <h4 class="mb-1">Welcome to Login Page</h4>
+          <h4 class="mb-1">Welcome to Admin Login</h4>
           <br>
            {{-- Validation bag error --}}
               @if($errors->has('login'))
@@ -40,7 +40,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               @endif
-          <form class="mb-6" action="{{ route('login.perform') }}" method="POST"> 
+          <form class="mb-6" action="{{ route('adminlogin.perform') }}" method="POST"> 
           @csrf
             <div class="mb-6">
               <label for="email" class="form-label">Email or Username</label>
@@ -61,9 +61,9 @@
                     Remember Me
                   </label>
                 </div>
-                <a href="{{url('auth/forgot-password-basic')}}">
+                <!-- <a href="{{url('auth/forgot-password-basic')}}">
                   <span>Forgot Password?</span>
-                </a>
+                </a> -->
               </div>
             </div>
             <div class="mb-6">

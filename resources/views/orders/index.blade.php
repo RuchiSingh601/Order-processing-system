@@ -18,33 +18,38 @@
 <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Warehouse</th>
-                <th>Total Amount</th>
-                <th>Order Number</th>
-                <th>Order Date</th>
-                <th>User</th>
-                <th>Payment Method</th>
-                <th>Status</th>
-                <th>Actions</th>
+                @if(auth()->user()->role->name === 'admin')
+                    <th>User</th>
+                @endif
+                <th width="20%">Order Number</th>
+                <th width="20%">Order Date</th>
+                <th width="10%">Total Amount</th> 
+                <th width="10%">Payment Method</th>
+                <th width="10%">Status</th>
+                <th width="20%">Delivery Date</th>
+                <th width="10%">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($orders as $order)
             <tr>
-                <td>{{ $order->id }}</td>
-                <td>{{ $order->warehouse_id }}</td>
-                <td>{{ $order->total_amount }}</td>
-                <td>{{ $order->order_number }}</td>
-                <td>{{ $order->order_date }}</td>
-                <td>{{ $order->user_id }}</td>
-                <td>{{ $order->payment_method }}</td>
-                <td>{{ $order->status }}</td>
-                <td>
-                    <a href="{{ route('order.edit', $order->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                @if(auth()->user()->role->name === 'admin')
+                    <td>{{ $order->user_id }}</td>
+                @endif
+                <td width="20%">{{ $order->order_number }}</td>
+                <td width="20%">{{ $order->order_date }}</td>
+                <td width="10%">{{ $order->total_amount }}</td>
+                <td width="10%">{{ $order->paymentMethod->name ?? 'N/A' }}</td>
+                <td width="10%">{{ $order->status == 1 ? 'Pending' : 'Complete' }}</td>
+                <td width="20%">{{ $order->delivery_date }}</td>
+                <td width="10%">
+                    <a href="{{ route('order.edit', $order->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
+                   
                     <form action="{{ route('order.destroy', $order->id) }}" method="POST" style="display:inline-block;">
                         @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this order?')" style="background: none; border: none; padding: 0;" title="Delete">
+                          <i class="bx bx-trash text-danger" style="font-size: 1.2rem;"></i>
+                        </button>
                     </form>
                 </td>
             </tr>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('embroidery_name');
             $table->decimal('additional_cost', 8, 2)->default(0.00);
             $table->unsignedBigInteger('warehouse_id')->nullable()->change();
+            $table->decimal('base_price', 10, 2)->default(0);
             $table->timestamps();
         });
     }

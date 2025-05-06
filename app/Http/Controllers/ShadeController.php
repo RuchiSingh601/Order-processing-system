@@ -23,6 +23,7 @@ public function store(Request $request)
 {
     $request->validate([
         'name' => 'required|string|unique:shades,name',
+        'base_price' => 'required|numeric|min:0',
        
     ]);
 
@@ -30,6 +31,7 @@ public function store(Request $request)
         'name' => $request->name,
         'code' => $request->code,
         'description' => $request->description,
+        'base_price' => $request->base_price,
         'status' => $request->status == 'Active' ? 'Y' : 'N',
         'warehouse_id' => auth()->user()->warehouse_id, // important!
     ]);
@@ -51,6 +53,7 @@ public function update(Request $request, $id)
         'name' => 'required',
         'code' => 'nullable|string',
         'description' => 'nullable|string',
+        'base_price' => 'required|numeric|min:0',
         'status' => 'required',
     ]);
 

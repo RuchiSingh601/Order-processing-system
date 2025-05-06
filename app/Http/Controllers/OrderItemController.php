@@ -14,6 +14,26 @@ class OrderItemController extends Controller
         return view('order_items.index', compact('items'));
     }
 
+    public function store()
+    {
+        foreach ($request->products as $product) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $product['product_id'],
+                'user_id' => auth()->id(),
+                'price' => $product['price'],
+                'quantity' => $product['quantity'],
+                'other_charges' => $product['other_charges'] ?? 0,
+                'total_charges' => $product['total_charges'],
+                'shade_id' => $product['shade_id'],
+                'size_id' => $product['size_id'],
+                'pattern_id' => $product['pattern_id'],
+                'embroidery_id' => $product['embroidery_id'] ?? null,
+            ]);
+        }
+        return redirect()->back()->with('success', 'Items added successfully.');        
+    }
+
     // Edit item (optional)
     public function edit($id)
     {

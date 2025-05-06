@@ -15,6 +15,12 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
+    public function dashbord()
+    {
+        $users = User::with('role')->get();
+        return view('user.dashboard', compact('users'));
+    }
+
     public function create() {
         $roles = Role::all();
         $warehouses = Warehouse::all();

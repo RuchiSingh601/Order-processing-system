@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('code')->nullable(); // Optional: SHD001
             $table->string('description')->nullable();
             $table->string('status')->default('Active');
+            $table->decimal('base_price', 10, 2)->default(0);
             $table->unsignedBigInteger('warehouse_id')->nullable()->change();
             $table->timestamps();
         });

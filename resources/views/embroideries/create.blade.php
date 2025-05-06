@@ -29,10 +29,17 @@
         </div>
     </div>
     <div class="row mb-3 ms-1 me-1">
-    <div class="col-md-5">
-    <label for="additional_cost">Additional Cost</label>
-    <input type="number" name="additional_cost" class="form-control" step="0.01" required>
+        <div class="col-md-5">
+            <label for="additional_cost">Additional Cost</label>
+            <input type="number" name="additional_cost" class="form-control" step="0.01" required>
+        </div>
+        
+            <div class="col-md-5">
+                <label class="ms-1">Base Price</label>
+                <input type="number" name="base_price" class="form-control">
+            </div>
     </div>
+    <div class="row mb-3 ms-1 me-1">
     <div class="col-md-5">
     <!-- <select name="status" class="form-control">
         <option value="Active">Active</option>

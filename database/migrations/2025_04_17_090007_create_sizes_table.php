@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code')->nullable(); 
             $table->text('description')->nullable();
+            $table->decimal('base_price', 10, 2)->default(0);
             $table->string('status')->default('Active');
             $table->unsignedBigInteger('warehouse_id')->nullable()->change();
             $table->timestamps();

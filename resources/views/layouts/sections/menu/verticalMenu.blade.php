@@ -29,6 +29,8 @@
       @php
       $activeClass = null;
       $currentRouteName = Route::currentRouteName();
+      $user = Auth::user();
+      $role = $user->role->name ?? null; 
 
       if ($currentRouteName === $menu->slug) {
         $activeClass = 'active';
@@ -50,6 +52,7 @@
       @endphp
 
       {{-- main menu --}}
+      @if (in_array($role, $menu->role))
       <li class="menu-item {{$activeClass}}">
         <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
           @isset($menu->icon)
@@ -67,7 +70,9 @@
         @endisset
       </li>
       @endif
+      @endif
     @endforeach
+   
   </ul>
 
 </aside>

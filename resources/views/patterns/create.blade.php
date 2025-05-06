@@ -38,13 +38,13 @@
                 <textarea name="description" class="form-control ms-5"></textarea>
             </div>
             </div>
+            <div class="row mb-3 ms-1 me-1">
+            <div class="col-md-5">
+                <label class="ms-1">Base Price</label>
+                <input type="number" name="base_price" class="form-control">
+            </div>
+            </div>
              <div class="col-md-5">
-            <!-- <label class="form-label ms-5">Status:</label>
-            <select name="status" class="form-control ms-5">
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-            </select> -->
-
             <input type="checkbox" class="form-check-input mt-5 ms-5" id="status" name="status" value="Active">
             <label class="form-check-label mt-5" for="status">Is Active</label>
          </div>

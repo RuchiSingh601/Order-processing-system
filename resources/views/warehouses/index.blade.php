@@ -31,10 +31,13 @@
                     <td>{{ $warehouse->name }}</td>
                     <td>{{ $warehouse->code }}</td>
                     <td>
-                        <a href="{{ route('warehouses.edit', $warehouse->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ route('warehouses.edit', $warehouse->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
                         <form action="{{ route('warehouses.destroy', $warehouse->id) }}" method="POST" style="display:inline-block;">
                             @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this warehouse?')" style="background: none; border: none; padding: 0;" title="Delete">
+                                <i class="bx bx-trash text-danger" style="font-size: 1.2rem;"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>

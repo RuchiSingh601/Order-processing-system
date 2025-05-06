@@ -22,6 +22,7 @@
         <th>Name</th>
         <th>Code</th>
         <th>Description</th>
+        <th>Base Price</th>
         <th>Status</th>
         <th>Action</th>
     </tr>
@@ -33,14 +34,17 @@
         <td>{{ $size->name }}</td>
         <td>{{ $size->code }}</td>
         <td>{{ $size->description }}</td>
+        <td>{{ $size->base_price }}</td>
         <td>{{ $size->status == 'Y' ? 'Active' : "In-Active" }}</td>
             <td>
-             <a href="{{ route('Sizes.edit', $size->id) }}" class="btn btn-warning">Edit</a>
+             <a href="{{ route('Sizes.edit', $size->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
                 
                 <form action="{{ route('Sizes.destroy', $size->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this size?')">Delete</button>
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this size?')" style="background: none; border: none; padding: 0;" title="Delete">
+                         <i class="bx bx-trash text-danger" style="font-size: 1.2rem;"></i>
+                     </button>
                 </form>
             </td>
     </tr>

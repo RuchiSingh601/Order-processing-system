@@ -23,12 +23,15 @@ public function store(Request $request)
 {
     $request->validate([
         'name' => 'required',
+        'base_price' => 'required|numeric|min:0',
+       
     ]);
 
     Pattern::create([
         'name' => $request->name,
         'code' => $request->code,
         'description' => $request->description,
+        'base_price' => $request->base_price,
         'status' => $request->status == 'Active' ? "Y" : "N",
         'warehouse_id' => auth()->user()->warehouse_id, // important!
     ]);

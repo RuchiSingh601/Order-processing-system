@@ -42,6 +42,12 @@
                 </div>
                 </div>
                 <div class="row mb-3 ms-1 me-1">
+                    <div class="col-md-5">
+                        <label class="ms-5">Base Price</label>
+                        <input type="number" step="0.01" name="base_price" class="form-control ms-5" value="{{ old('base_price', $size->base_price ?? '') }}" required>
+                    </div>
+                </div>
+                <div class="row mb-3 ms-1 me-1">
                 <div class="col-md-5">
                 <input type="checkbox" class="form-check-input ms-5 mt-5" id="status" name="status" value="Active" {{ $size->status == 'Y' ? 'checked' : '' }}>
                     <label class="form-check-label mt-5" for="status">Is Active</label>

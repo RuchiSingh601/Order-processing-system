@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2025 at 04:11 PM
+-- Generation Time: May 06, 2025 at 01:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -56,6 +56,7 @@ CREATE TABLE `embroideries` (
   `warehouse_id` int(11) NOT NULL,
   `embroidery_name` varchar(255) NOT NULL,
   `additional_cost` decimal(8,2) NOT NULL DEFAULT 0.00,
+  `base_price` int(100) NOT NULL,
   `status` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -65,9 +66,10 @@ CREATE TABLE `embroideries` (
 -- Dumping data for table `embroideries`
 --
 
-INSERT INTO `embroideries` (`id`, `warehouse_id`, `embroidery_name`, `additional_cost`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Not work', 7.00, 'Y', '2025-04-22 01:13:47', '2025-04-23 00:26:46'),
-(3, 1, 'Zariwork', 5.00, 'Y', '2025-04-22 02:47:45', '2025-04-24 03:24:15');
+INSERT INTO `embroideries` (`id`, `warehouse_id`, `embroidery_name`, `additional_cost`, `base_price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Not work', 7.00, 40, 'Y', '2025-04-22 01:13:47', '2025-04-23 00:26:46'),
+(3, 1, 'Zariwork', 5.00, 50, 'Y', '2025-04-22 02:47:45', '2025-04-24 03:24:15'),
+(7, 1, 'without work', 0.00, 0, 'Y', '2025-05-05 02:38:32', '2025-05-05 02:38:32');
 
 -- --------------------------------------------------------
 
@@ -154,7 +156,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `warehouse_id` int(11) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
   `total_amount` int(11) NOT NULL,
   `order_number` varchar(150) NOT NULL,
   `order_date` date NOT NULL,
@@ -162,16 +164,18 @@ CREATE TABLE `orders` (
   `payment_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `delivery_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `warehouse_id`, `total_amount`, `order_number`, `order_date`, `user_id`, `payment_id`, `status`, `created_at`, `updated_at`) VALUES
-(25, 3, 975, 'ORD1745585569', '2025-04-25', 1, 1, 1, '2025-04-25 12:53:05', '2025-04-25 12:53:05'),
-(27, 1, 100, 'ORD1745675079', '2025-04-26', 1, 1, 1, '2025-04-26 13:44:48', '2025-04-26 13:44:48');
+INSERT INTO `orders` (`id`, `warehouse_id`, `total_amount`, `order_number`, `order_date`, `user_id`, `payment_id`, `status`, `created_at`, `updated_at`, `delivery_date`) VALUES
+(60, NULL, 1680, 'ORD1746519949', '2025-05-06', 1, 1, 1, '2025-05-06 08:26:13', '2025-05-06 08:33:30', '2025-05-13'),
+(61, NULL, 580, 'ORD1746521323', '2025-05-06', 1, 1, 1, '2025-05-06 08:49:01', '2025-05-06 08:49:14', '2025-05-13'),
+(62, 1, 810, 'ORD1746521547', '2025-05-06', 2, 1, 1, '2025-05-06 08:52:42', '2025-05-06 08:52:53', '2025-05-13');
 
 -- --------------------------------------------------------
 
@@ -181,7 +185,7 @@ INSERT INTO `orders` (`id`, `warehouse_id`, `total_amount`, `order_number`, `ord
 
 CREATE TABLE `order_items` (
   `id` int(11) NOT NULL,
-  `warehouse_id` int(11) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -190,20 +194,24 @@ CREATE TABLE `order_items` (
   `other_charges` int(11) DEFAULT NULL,
   `total_charges` int(11) DEFAULT NULL,
   `delivery_charges` int(11) DEFAULT NULL,
-  `delivery_date` date NOT NULL,
+  `delivery_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `shade_id` int(11) DEFAULT NULL,
+  `size_id` int(11) DEFAULT NULL,
+  `pattern_id` int(11) DEFAULT NULL,
+  `embroidery_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `warehouse_id`, `order_id`, `product_id`, `user_id`, `price`, `quantity`, `other_charges`, `total_charges`, `delivery_charges`, `delivery_date`, `created_at`, `updated_at`) VALUES
-(5, 3, 25, 1, 1, 100, 1, 0, 100, NULL, '2025-04-25', '2025-04-25 12:53:05', '2025-04-25 12:53:05'),
-(6, 3, 25, 3, 1, 875, 1, 0, 875, NULL, '2025-04-25', '2025-04-25 12:53:05', '2025-04-25 12:53:05'),
-(7, 1, 26, 1, 1, 100, 1, 0, 100, NULL, '2025-04-26', '2025-04-26 13:34:33', '2025-04-26 13:34:33'),
-(8, 1, 27, 1, 1, 100, 1, 0, 100, NULL, '2025-04-26', '2025-04-26 13:44:48', '2025-04-26 13:44:48');
+INSERT INTO `order_items` (`id`, `warehouse_id`, `order_id`, `product_id`, `user_id`, `price`, `quantity`, `other_charges`, `total_charges`, `delivery_charges`, `delivery_date`, `created_at`, `updated_at`, `shade_id`, `size_id`, `pattern_id`, `embroidery_id`) VALUES
+(77, NULL, 60, 1, 1, 435, 3, 0, 1305, NULL, NULL, '2025-05-06 08:33:46', '2025-05-06 08:33:46', 5, 2, 18, 3),
+(78, NULL, 60, 3, 1, 375, 1, 0, 375, NULL, NULL, '2025-05-06 08:33:46', '2025-05-06 08:33:46', NULL, NULL, NULL, NULL),
+(80, NULL, 61, 6, 1, 290, 2, 0, 580, NULL, NULL, '2025-05-06 08:49:14', '2025-05-06 08:49:14', 5, 3, 3, 1),
+(82, 1, 62, 1, 2, 405, 2, 0, 810, NULL, NULL, '2025-05-06 08:52:53', '2025-05-06 08:52:53', 5, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -217,6 +225,7 @@ CREATE TABLE `patterns` (
   `code` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
+  `base_price` int(100) NOT NULL,
   `status` varchar(100) DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -227,10 +236,10 @@ CREATE TABLE `patterns` (
 -- Dumping data for table `patterns`
 --
 
-INSERT INTO `patterns` (`id`, `warehouse_id`, `code`, `name`, `description`, `status`, `image_path`, `created_at`, `updated_at`) VALUES
-(1, 1, '11', 'Round Neck with 3 buttons', 'Round Neck with 3 buttons', 'Y', NULL, '2025-04-18 00:27:05', '2025-04-23 00:25:28'),
-(3, 1, '12', 'Round Neck without button', 'Round Neck without button', 'Y', NULL, '2025-04-18 00:29:13', '2025-04-22 03:14:56'),
-(15, 1, '34', 'BedSheet', 'bedsheet', 'Y', NULL, '2025-04-24 00:32:22', '2025-04-24 00:51:23');
+INSERT INTO `patterns` (`id`, `warehouse_id`, `code`, `name`, `description`, `base_price`, `status`, `image_path`, `created_at`, `updated_at`) VALUES
+(1, 1, '11', 'Round Neck with 3 buttons', 'Round Neck with 3 buttons', 40, 'Y', NULL, '2025-04-18 00:27:05', '2025-05-05 02:05:28'),
+(3, 1, '12', 'Round Neck without button', 'Round Neck without button', 50, 'Y', NULL, '2025-04-18 00:29:13', '2025-05-05 02:05:36'),
+(18, 1, '21', 'V Neck', 'v neck', 60, 'Y', NULL, '2025-05-05 02:06:10', '2025-05-05 02:06:10');
 
 -- --------------------------------------------------------
 
@@ -260,15 +269,8 @@ INSERT INTO `paymentmethods` (`id`, `name`, `status`) VALUES
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `warehouse_id` int(11) NOT NULL,
-  `pattern_id` int(11) NOT NULL,
-  `shade_id` int(11) NOT NULL,
-  `size_id` int(11) NOT NULL,
-  `embroidery_id` int(11) DEFAULT NULL,
-  `is_embroidery` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(150) NOT NULL,
   `price` int(11) NOT NULL,
-  `embroidery_charges` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -277,10 +279,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `warehouse_id`, `pattern_id`, `shade_id`, `size_id`, `embroidery_id`, `is_embroidery`, `name`, `price`, `embroidery_charges`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 5, 2, 1, 1, 'item1', 100, 100, '2025-04-23 10:07:08', '2025-04-23 10:07:08'),
-(3, 1, 3, 6, 11, 1, 0, 'Item2', 875, 1, '2025-04-24 06:55:00', '2025-04-24 06:56:50'),
-(4, 1, 15, 13, 3, 3, 0, 'Item3', 385, 1, '2025-04-24 06:56:19', '2025-04-24 09:26:20');
+INSERT INTO `products` (`id`, `name`, `price`, `created_at`, `updated_at`) VALUES
+(1, 'Banket', 225, '2025-04-23 10:07:08', '2025-05-05 09:41:56'),
+(3, 'apron', 375, '2025-04-24 06:55:00', '2025-05-05 08:54:49'),
+(6, 'Gloves', 100, '2025-05-05 09:36:24', '2025-05-05 09:42:05'),
+(7, 'curtains', 220, '2025-05-06 08:51:32', '2025-05-06 08:51:41');
 
 -- --------------------------------------------------------
 
@@ -332,6 +335,7 @@ CREATE TABLE `shades` (
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL,
+  `base_price` int(100) NOT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -341,11 +345,9 @@ CREATE TABLE `shades` (
 -- Dumping data for table `shades`
 --
 
-INSERT INTO `shades` (`id`, `warehouse_id`, `code`, `name`, `description`, `status`, `image_path`, `created_at`, `updated_at`) VALUES
-(5, 0, '01', 'Mahroon', 'Mahroon', 'Y', NULL, '2025-04-17 07:01:25', '2025-04-23 02:16:29'),
-(6, 0, '02', 'Pink', 'Pink', 'Active', NULL, '2025-04-17 07:01:38', '2025-04-17 07:01:38'),
-(11, 1, 'B01', 'Blue', 'blue', 'Active', NULL, '2025-04-23 02:07:48', '2025-04-23 02:07:48'),
-(13, 1, 'G01', 'Green', 'grenn', 'Active', NULL, '2025-04-23 02:08:46', '2025-04-23 02:08:46');
+INSERT INTO `shades` (`id`, `warehouse_id`, `code`, `name`, `description`, `status`, `base_price`, `image_path`, `created_at`, `updated_at`) VALUES
+(5, 0, '01', 'Mahroon', 'Mahroon', 'Y', 50, NULL, '2025-04-17 07:01:25', '2025-04-23 02:16:29'),
+(6, 0, '02', 'Pink', 'Pink', 'Active', 55, NULL, '2025-04-17 07:01:38', '2025-04-17 07:01:38');
 
 -- --------------------------------------------------------
 
@@ -360,6 +362,7 @@ CREATE TABLE `sizes` (
   `name` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL,
+  `base_price` int(100) NOT NULL,
   `image_path` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -369,11 +372,10 @@ CREATE TABLE `sizes` (
 -- Dumping data for table `sizes`
 --
 
-INSERT INTO `sizes` (`id`, `warehouse_id`, `code`, `name`, `description`, `status`, `image_path`, `created_at`, `updated_at`) VALUES
-(2, 0, 22, 'L-10', 'Dress Size', 'Active', NULL, '2025-04-18 01:04:03', '2025-04-18 01:04:03'),
-(3, 0, 21, 'M-10', 'Dress Size', 'Active', NULL, '2025-04-18 01:05:11', '2025-04-18 01:05:11'),
-(11, 1, 1, 'XXL', 'XXL', 'Active', NULL, '2025-04-24 00:14:24', '2025-04-24 00:14:24'),
-(15, 1, 11, 'M', 'm', 'N', NULL, '2025-04-25 04:16:47', '2025-04-25 04:17:26');
+INSERT INTO `sizes` (`id`, `warehouse_id`, `code`, `name`, `description`, `status`, `base_price`, `image_path`, `created_at`, `updated_at`) VALUES
+(2, 1, 22, 'L-10', 'Dress Size', 'Y', 50, NULL, '2025-04-18 01:04:03', '2025-05-05 02:15:08'),
+(3, 1, 21, 'M-10', 'Dress Size', 'Y', 50, NULL, '2025-04-18 01:05:11', '2025-05-05 02:14:57'),
+(25, 1, 21, 'S', 's', 'Y', 20, NULL, '2025-05-05 02:55:01', '2025-05-05 02:55:01');
 
 -- --------------------------------------------------------
 
@@ -432,8 +434,8 @@ CREATE TABLE `warehouses` (
 --
 
 INSERT INTO `warehouses` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUES
-(1, 'demo', 'demo', '2025-04-19 12:46:50', '2025-04-19 12:46:50'),
-(3, 'Demo2', 'demo2', '2025-04-25 07:16:47', '2025-04-25 07:16:47');
+(1, 'Warehouse One', 'demo', '2025-04-19 12:46:50', '2025-05-03 13:56:46'),
+(3, 'Warehouse Two', 'demo2', '2025-04-25 07:16:47', '2025-05-03 13:56:57');
 
 --
 -- Indexes for dumped tables
@@ -563,7 +565,7 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `embroideries`
 --
 ALTER TABLE `embroideries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -587,19 +589,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `patterns`
 --
 ALTER TABLE `patterns`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `paymentmethods`
@@ -611,7 +613,7 @@ ALTER TABLE `paymentmethods`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -623,25 +625,25 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `shades`
 --
 ALTER TABLE `shades`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `sizes`
 --
 ALTER TABLE `sizes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `warehouses`
 --
 ALTER TABLE `warehouses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

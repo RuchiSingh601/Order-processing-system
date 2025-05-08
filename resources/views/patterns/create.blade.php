@@ -10,9 +10,9 @@
 <div class="col-xxl">
 <div class="card mb-6">
 <h4 class="mt-5 ms-5 text-start">Create Pattern</h4>
-<form action="{{ route('Patterns.store') }}" method="POST">
+<form action="{{ route('patterns.store') }}" method="POST">
     @csrf
-    
+
             <div class="row mb-3 ms-1 me-1">
             <div class="col-md-5">
                 <label for="warehouse_id">Warehouse:</label>
@@ -31,7 +31,7 @@
             <div class="row mb-3 ms-1 me-1">
             <div class="col-md-5">
                 <label class="form-label ">Code(optional):</label>
-                <input type="text" name="code" class="form-control"  required> 
+                <input type="text" name="code" class="form-control"  required>
             </div>
             <div class="col-md-5">
                 <label class="form-label ms-5">Description:</label>

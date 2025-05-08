@@ -9,14 +9,14 @@ class SizeController extends Controller
 {
     public function index()
     {
-        $Sizes = Size::all();
-        return view('Sizes.index', compact('Sizes'));
+        $allSizes = Size::all();
+        return view('sizes.index', compact('allSizes'));
     }
 
     public function create()
     {
         $warehouses = Warehouse::all();
-        return view('Sizes.create' ,compact('warehouses'));
+        return view('sizes.create' ,compact('warehouses'));
     }
 
     public function store(Request $request)
@@ -35,14 +35,14 @@ class SizeController extends Controller
             'status' => $request->status == 'Active' ? 'Y' : 'N',
         ]);
 
-        return redirect()->route('Sizes.index')->with('success', 'Size added successfully!');
+        return redirect()->route('sizes.index')->with('success', 'Size added successfully!');
     }
 
     public function edit($id)
     {
         $size = Size::findOrFail($id);
         $warehouses = Warehouse::all();
-        return view('Sizes.edit', compact('size' , 'warehouses'));
+        return view('sizes.edit', compact('size' , 'warehouses'));
     }
 
     public function update(Request $request, $id)
@@ -56,23 +56,23 @@ class SizeController extends Controller
             'base_price' => 'required|numeric|min:0',
             // Add more validations if needed
         ]);
-    
+
         $request->merge([
             'status' => $request->status == 'Active' ? 'Y' : 'N',
         ]);
-    
+
         $size->update($request->all());
-        
-    return redirect()->route('Sizes.index')->with('success', 'Size updated!');
+
+    return redirect()->route('sizes.index')->with('success', 'Size updated!');
     }
     public function destroy($id)
     {
         Size::findOrFail($id)->delete();
-        return redirect()->route('Sizes.index')->with('success', 'Size deleted!');
+        return redirect()->route('sizes.index')->with('success', 'Size deleted!');
     }
 //     public function show($id)
 // {
 //     $size = Size::findOrFail($id);
-//     return view('Sizes.show', compact('size'));
+//     return view('sizes.show', compact('size'));
 // }
 }

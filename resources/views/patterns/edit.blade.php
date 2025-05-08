@@ -12,7 +12,7 @@
     <div class="card mb-6">
         <h4 class="mt-5 ms-5 text-start">Edit Pattern</h4>
 
-        <form action="{{ route('Patterns.update', $pattern->id) }}" method="POST">
+        <form action="{{ route('patterns.update', $pattern->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -36,7 +36,7 @@
                     <label class="form-label ms-5">Code(optional):</label>
                     <input type="text" name="code" class="form-control ms-5" value="{{ old('code', $pattern->code) }}">
                 </div>
-          
+
                 <div class="col-md-5">
                     <label class="form-label ms-5">Description:</label>
                     <input type="description" class="form-control ms-5" value="{{ old('Description', $pattern->description) }}">
@@ -60,7 +60,7 @@
                     <label class="form-check-label mt-5" for="status">Is Active</label>
                 </div>
             </div>
-        
+
             <div class="d-flex justify-content-center mt-3">
                 <button type="submit" class="btn btn-primary">Update pattern</button>
             </div>

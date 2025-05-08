@@ -10,9 +10,9 @@
 <div class="col-xxl">
 <div class="card mb-6">
 <h4 class="mt-5 ms-5 text-start">Create Size</h4>
-<form action="{{ route('Sizes.store') }}" method="POST">
+<form action="{{ route('sizes.store') }}" method="POST">
     @csrf
-    
+
     <div class="row mb-3 ms-1 me-1">
     <div class="col-md-5">
     <label for="warehouse_id">Warehouse:</label>
@@ -33,7 +33,7 @@
             <label class="ms-1">Code(optional):</label>
             <input type="text" name="code" class="form-control">
             </div>
-    
+
             <div class="col-md-5">
             <label class="ms-5">Description:</label>
             <textarea name="description" class="form-control"></textarea>
@@ -51,7 +51,7 @@
                     <label class="form-check-label" for="status">Is Active</label>
                 </div>
             </div>
-    
+
     <div class="d-flex justify-content-center px-4">
     <button type="submit" class="btn btn-primary mt-3">Add Size</button>
     </div>

@@ -9,8 +9,8 @@ class PatternController extends Controller
 {
 public function index()
 {
-    $Patterns = Pattern::all();
-    return view('Patterns.index', compact('Patterns'));
+    $allPatterns = Pattern::all();
+    return view('patterns.index', compact('allPatterns'));
 }
 
 public function create()
@@ -24,7 +24,7 @@ public function store(Request $request)
     $request->validate([
         'name' => 'required',
         'base_price' => 'required|numeric|min:0',
-       
+
     ]);
 
     Pattern::create([
@@ -40,14 +40,14 @@ public function store(Request $request)
             'status' => $request->status == 'Active' ? 'Y' : 'N',
         ]);
 
-    return redirect()->route('Patterns.index')->with('success', 'Pattern added!');
+    return redirect()->route('patterns.index')->with('success', 'Pattern added!');
 }
 
 public function edit($id)
 {
     $pattern = Pattern::findOrFail($id);
     $warehouses = Warehouse::all();
-    return view('Patterns.edit', compact('pattern', 'warehouses'));
+    return view('patterns.edit', compact('pattern', 'warehouses'));
 }
 
 public function update(Request $request, $id)
@@ -60,12 +60,12 @@ public function update(Request $request, $id)
     $pattern = Pattern::findOrFail($id);
     $pattern->update($request->all());
 
-    return redirect()->route('Patterns.index')->with('success', 'Pattern updated!');
+    return redirect()->route('patterns.index')->with('success', 'Pattern updated!');
 }
 
 public function destroy($id)
 {
     Pattern::findOrFail($id)->delete();
-    return redirect()->route('Patterns.index')->with('success', 'Pattern deleted!');
+    return redirect()->route('patterns.index')->with('success', 'Pattern deleted!');
 }
 }

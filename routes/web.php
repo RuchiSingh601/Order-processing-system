@@ -149,7 +149,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
-    
+
 });
 
 
@@ -158,15 +158,15 @@ Route::get('shades/create', [ShadeController::class, 'create'])->name('shades.cr
 Route::post('shades', [ShadeController::class, 'store'])->name('shades.store');
 Route::resource('shades', ShadeController::class);
 
-Route::get('/Patterns', [PatternController::class, 'index'])->name('Patterns.index');
-Route::get('Patterns/create', [PatternController::class, 'create'])->name('Patterns.create');
-Route::post('Patterns', [PatternController::class, 'store'])->name('Patterns.store');
-Route::resource('Patterns', PatternController::class);
+Route::get('/patterns', [PatternController::class, 'index'])->name('patterns.index');
+Route::get('patterns/create', [PatternController::class, 'create'])->name('patterns.create');
+Route::post('patterns', [PatternController::class, 'store'])->name('patterns.store');
+Route::resource('patterns', PatternController::class);
 
- Route::get('/Sizes', [SizeController::class, 'index'])->name('Sizes.index');
- Route::get('Sizes/create', [SizeController::class, 'create'])->name('Sizes.create');
- Route::post('Sizes', [SizeController::class, 'store'])->name('Sizes.store');
- Route::resource('Sizes', SizeController::class);
+ Route::get('/sizes', [SizeController::class, 'index'])->name('sizes.index');
+ Route::get('sizes/create', [SizeController::class, 'create'])->name('sizes.create');
+ Route::post('sizes', [SizeController::class, 'store'])->name('sizes.store');
+ Route::resource('sizes', SizeController::class);
 
  Route::get('/embroideries', [EmbroideryController::class, 'index'])->name('embroideries.index');
  Route::get('embroideries/create', [EmbroideryController::class, 'create'])->name('embroideries.create');
@@ -182,7 +182,7 @@ Route::resource('items', ItemController::class);
 Route::get('/items', [OrderItemController::class, 'index']);
 
 Route::get('/order', [OrderController::class, 'index'])->name('order.index');
-Route::get('/order', [OrderController::class, 'create'])->name('order.create');     
+Route::get('/order', [OrderController::class, 'create'])->name('order.create');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 Route::resource('order', OrderController::class);
 

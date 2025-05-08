@@ -11,7 +11,7 @@
 <div class="card mb-6">
 <div class="d-flex justify-content-between align-items-center mt-4 mb-3 px-4">
     <h4 class="mb-0">Pattern List</h4>
-    <a href="{{ route('Patterns.create') }}" class="btn btn-primary mt-4 mb-3 px-4">Add New Pattern</a>
+    <a href="{{ route('patterns.create') }}" class="btn btn-primary mt-4 mb-3 px-4">Add New Pattern</a>
 </div>
 @csrf
 <br>
@@ -28,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($Patterns as $pattern)
+    @foreach ($allPatterns as $pattern)
     <tr>
         <td>{{ $pattern->id }}</td>
         <td>{{ $pattern->name }}</td>
@@ -37,9 +37,9 @@
         <td>{{ $pattern->base_price }}</td>
         <td>{{ $pattern->status == 'Y' ? 'Active' : "In-Active" }}</td>
             <td>
-             <a href="{{ route('Patterns.edit', $pattern->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
-                
-                <form action="{{ route('Patterns.destroy', $pattern->id) }}" method="POST" style="display:inline;">
+             <a href="{{ route('patterns.edit', $pattern->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
+
+                <form action="{{ route('patterns.destroy', $pattern->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Are you sure you want to delete this pattern?')" style="background: none; border: none; padding: 0;" title="Delete">

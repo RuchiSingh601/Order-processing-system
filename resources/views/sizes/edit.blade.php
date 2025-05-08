@@ -12,7 +12,7 @@
     <div class="card mb-6">
         <h5 class="mt-5 ms-5 text-start">Edit Size</h5>
 
-        <form action="{{ route('Sizes.update', $size->id) }}" method="POST">
+        <form action="{{ route('sizes.update', $size->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -53,7 +53,7 @@
                     <label class="form-check-label mt-5" for="status">Is Active</label>
                 </div>
             </div>
-        
+
             <div class="d-flex justify-content-center mt-3">
                 <button type="submit" class="btn btn-primary">Update Size</button>
             </div>

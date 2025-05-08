@@ -11,7 +11,7 @@
 <div class="card mb-6">
 <div class="d-flex justify-content-between align-items-center mt-4 mb-3 px-4">
     <h4 class="mb-0">Sizes List</h4>
-    <a href="{{ route('Sizes.create') }}" class="btn btn-primary mt-4 mb-3 px-4">Add New Size</a>
+    <a href="{{ route('sizes.create') }}" class="btn btn-primary mt-4 mb-3 px-4">Add New Size</a>
 </div>
 @csrf
 <br>
@@ -28,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($Sizes as $size)
+    @foreach ($allSizes as $size)
     <tr>
         <td>{{ $size->id }}</td>
         <td>{{ $size->name }}</td>
@@ -37,9 +37,9 @@
         <td>{{ $size->base_price }}</td>
         <td>{{ $size->status == 'Y' ? 'Active' : "In-Active" }}</td>
             <td>
-             <a href="{{ route('Sizes.edit', $size->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
-                
-                <form action="{{ route('Sizes.destroy', $size->id) }}" method="POST" style="display:inline;">
+             <a href="{{ route('sizes.edit', $size->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
+
+                <form action="{{ route('sizes.destroy', $size->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Are you sure you want to delete this size?')" style="background: none; border: none; padding: 0;" title="Delete">

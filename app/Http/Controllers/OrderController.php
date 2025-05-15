@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Shade;
 use App\Models\Pattern;
 use App\Models\Size;
-use App\Models\Paymentmethod;
+use App\Models\PaymentMethod;
 use App\Models\Embroidery;
 use App\Models\User;
 use App\Models\Product;
@@ -21,17 +21,17 @@ use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
 {
     public function index() {
-        $user = Auth::user(); 
-        $role = $user->role->name ?? null; 
+        $user = Auth::user();
+        $role = $user->role->name ?? null;
         $orders = [];
         if ($role === 'admin') {
-            $orders = Order::with('paymentMethod')->get(); 
+            $orders = Order::with('paymentMethod')->get();
         } elseif ($role == 'user') {
             $orders = Order::with('paymentMethod')->where('user_id', $user->id)->get();
         }
         $items = $orders;
         $paymentMethods = PaymentMethod::where('status', 1)->get();
-        
+
         $customers = Customer::all();
         return view('orders.index', compact('orders', 'paymentMethods','customers'));
      }
@@ -39,23 +39,23 @@ class OrderController extends Controller
      public function create()
      {
         $customers = Customer::with("city")->get();
-        // $customers = User::all(); 
+        // $customers = User::all();
         $paymentMethods = PaymentMethod::where('status', 1)->get();
         $shades = Shade::all();
         $patterns = Pattern::all();
         $sizes = Size::all();
         $embroideries = Embroidery::all();
-        $products = Product::all(); 
-        //$warehouses = Warehouse::all(); 
+        $products = Product::all();
+        //$warehouses = Warehouse::all();
 
         $order = null;
-        
+
         return view('orders.create', compact( 'customers', 'shades', 'patterns', 'sizes', 'embroideries', 'paymentMethods', 'products'));
      }
 
      public function store(Request $request)
      {
-        
+
         $totalPrice = 0;
 
          try {
@@ -66,7 +66,7 @@ class OrderController extends Controller
                 'order_date' => 'required|date',
                 'delivery_date' => 'required|date',
                 'payment_id' => 'required|nullable',
-                'status' => 'required|string|in:pending,completed', 
+                'status' => 'required|string|in:pending,completed',
                 'delivery_charge' => 'nullable|numeric',
                 'total_amount' => 'required|numeric',
                 'customer_id' => 'required|string',
@@ -79,14 +79,14 @@ class OrderController extends Controller
 
                  //return redirect()->back()->with('error', 'Error creating order: ' . $e->getMessage());
             }
-            
-            $user = Auth::user(); 
+
+            $user = Auth::user();
 
             $warehouse_id = null;
             if($user->role->name =='user'){
                 $warehouse_id = session('selected_warehouse_id');
             }
-            
+
             $request->merge([
                 'status' => 1,
                 'user_id' =>$user->id,
@@ -106,7 +106,7 @@ class OrderController extends Controller
             Log::info('2');
 
             $products = $request->input('products');
-       
+
             foreach ($request->products as $product) {
                 $orderItemData = [
                     'order_id' => $order->id,
@@ -121,17 +121,17 @@ class OrderController extends Controller
                     'pattern_id' => $product['pattern_id'] ?? null,
                     'embroidery_id' => $product['embroidery_id'] ?? null,
                 ];
-            
+
                 if ($user->role->name == 'user') {
                     $orderItemData['warehouse_id'] = $warehouse_id;
                 }
-            
+
                 OrderItem::create($orderItemData);
             }
 
-             
+
             Log::info('5 : Complated');
-      
+
         return redirect()->back()->with('success', 'Order submitted successfully');
        // return redirect()->route('orders.create')->with('success', 'Order created successfully.');
     }
@@ -148,7 +148,7 @@ class OrderController extends Controller
         $orderItems = \App\Models\OrderItem::where('order_id', $order->id)->get();
         $customers = Customer::all();
 
-        return view('orders.edit', compact('order', 'products',  'orderItems' , 'paymentMethods', 'shades', 'sizes', 'patterns', 'embroideries', 'customers'));  
+        return view('orders.edit', compact('order', 'products',  'orderItems' , 'paymentMethods', 'shades', 'sizes', 'patterns', 'embroideries', 'customers'));
     }
 
     public function update(Request $request, $id)
@@ -175,10 +175,10 @@ class OrderController extends Controller
             'warehouse_id' => session('selected_warehouse_id'),
         ]);
         // Log::info('3 : Complated');
-    
+
         // Find the order by ID
         $order = Order::findOrFail($id);
-    
+
         // Update order header fields
         $order->order_number = $validated['order_number'];
         $order->order_date = $validated['order_date'];
@@ -195,17 +195,17 @@ class OrderController extends Controller
         // Log::info('4 : Complated');
         // Get the currently authenticated user
         $user = auth()->user();
-    
+
         // Delete existing order items (assuming full replacement)
         $order->orderItems()->delete();
 
-        $user = Auth::user(); 
+        $user = Auth::user();
 
         $warehouse_id = null;
         if($user->role->name =='user'){
             $warehouse_id = session('selected_warehouse_id');
         }
-        
+
         $request->merge([
             'user_id' =>$user->id,
             'warehouse_id' => $warehouse_id
@@ -216,7 +216,7 @@ class OrderController extends Controller
                 'warehouse_id' => $warehouse_id
             ]);
         }
-    
+
         // Recreate order items
         foreach ($request->products as $product) {
 
@@ -269,14 +269,14 @@ class OrderController extends Controller
 
         // Load the view and generate PDF
         $pdf = Pdf::loadView('orders.order_pdf', $data);
-        
+
         // Download PDF directly
         return $pdf->download('Order Invoice.pdf'.$order->id.'.pdf');
     }
 
     public function downloadInvoice($id)
     {
-        
+
          // Fetch order details from database (including related customer, items, etc.)
         $order = Order::with(['customer', 'items'])->findOrFail($id);
 
@@ -344,4 +344,3 @@ class OrderController extends Controller
     }
 
 }
-      

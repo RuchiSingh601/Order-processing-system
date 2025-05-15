@@ -18,16 +18,14 @@ $container = ($container ?? 'container-xxl');
 @endphp
 
 @section('layoutContent')
+
 <div class="layout-wrapper layout-content-navbar {{ $isMenu ? '' : 'layout-without-menu' }}">
   <div class="layout-container">
 
-    @if ($isMenu)
-    @include('layouts/sections/menu/verticalMenu')
-    @endif
 
 
     <!-- Layout page -->
-    <div class="layout-page">
+    <div class="layout-page" style="padding-left:0 !important">
       <!-- BEGIN: Navbar-->
       @if ($isNavbar)
       @include('layouts/sections/navbar/navbar')
@@ -69,5 +67,7 @@ $container = ($container ?? 'container-xxl');
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->
     <div class="drag-target"></div>
   </div>
+
+
   <!-- / Layout wrapper -->
   @endsection

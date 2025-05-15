@@ -43,7 +43,7 @@ class UserLogin extends Controller
              $user = Auth::user(); 
              $role = $user->role->name ?? null; 
 
-             if ($role == 'customer') {
+             if ($role == 'user') {
                 return redirect()->intended('user/dashboard');
              } else {
                  Auth::logout();
@@ -97,7 +97,7 @@ class UserLogin extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        if ($role == 'customer') {
+        if ($role == 'user') {
             return redirect('/login');
         } else if ($role === 'admin') {
             return redirect('/adminlogin');

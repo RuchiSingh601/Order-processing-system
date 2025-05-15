@@ -22,6 +22,7 @@
 
   <!-- Include Scripts for customizer, helper, analytics, config -->
   @include('layouts/sections/scriptsIncludes')
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -31,9 +32,20 @@
   <!--/ Layout Content -->
 
   
-
+  
+  
   <!-- Include Scripts -->
+  
   @include('layouts/sections/scripts')
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.full.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      console.log("Checking Select2:", $.fn.select2);
+      $('.select2').select2();
+    });
+    </script> -->
 
 </body>
 

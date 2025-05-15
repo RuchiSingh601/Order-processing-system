@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -15,6 +16,10 @@ class Order extends Model
         'user_id',
         'payment_id',
         'status',
+        'customer_id',
+        'delivery_charge',
+        'discount',
+        'payable_amount'
     ];
     public function items()
     {
@@ -28,6 +33,11 @@ class Order extends Model
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_id');
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 
 }

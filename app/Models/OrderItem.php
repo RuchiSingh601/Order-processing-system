@@ -36,4 +36,6 @@ class OrderItem extends Model
     public function size() { return $this->belongsTo(Size::class); }
     public function pattern() { return $this->belongsTo(Pattern::class); }
     public function embroidery() { return $this->belongsTo(Embroidery::class); }
+    public function product() { return $this->belongsTo(Product::class); }
+    
     }

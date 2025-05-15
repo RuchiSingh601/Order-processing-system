@@ -53,6 +53,9 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\EmbroideryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CityController;
+
 
 // layout
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -138,6 +141,16 @@ Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.dest
 Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
 
 
+
+// Route::middleware(['auth', 'is_admin'])->group(function () {
+Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+
+
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 
 // Dashboard route
@@ -186,6 +199,17 @@ Route::get('/order', [OrderController::class, 'create'])->name('order.create');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 Route::resource('order', OrderController::class);
 
+Route::get('/order/{id}/pdf', [OrderController::class, 'generatePDF'])->name('order.pdf');
+// Route to download and generate PDF
+Route::get('/download-invoice/{id}', [OrderController::class, 'downloadInvoice'])->name('download.invoice');
+
+// Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+// Route::get('/customers', [CustomerController::class, 'create'])->name('customers.create');
+// Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+// Route::resource('customers', CustomerController::class);
+
 Route::get('/items', [OrderItemController::class, 'index']);
 
 Route::resource('warehouses', WarehouseController::class);
+
+Route::resource('cities', CityController::class);

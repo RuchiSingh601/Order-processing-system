@@ -7,7 +7,7 @@
       "slug": "dashboard",
       "role": [
         "admin",
-        "customer"
+        "user"
       ]
     },
     {
@@ -17,7 +17,7 @@
       "slug": "order",
       "role": [
         "admin",
-        "customer"
+        "user"
       ]
     },
     {
@@ -44,6 +44,21 @@
           "role": [
             "admin"
           ]
+        },
+        {
+          "url": "/customers",
+          "name": "Customers",
+          "slug": "customers",
+          "role": ["admin" ,"customer"
+          ]
+        },
+
+         {
+          "url": "/cities",
+          "name": "Cities",
+          "slug": "cities",
+          "role": ["admin"]
+          
         }
       ]
     },

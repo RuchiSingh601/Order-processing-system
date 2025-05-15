@@ -33,6 +33,89 @@ $navbarDetached = ($navbarDetached ?? '');
       </div>
       @endif
 
+      <!-- start-->
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dynamic Navigation</title>
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+      </head>
+      <body>
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light mb-12" style="padding-top: 0px;padding-bottom: 0px;background-color: white !important;">
+        <div class="container-fluid">
+          <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="menu"></ul>
+            <form class="d-flex" onsubmit="return false">
+              <a href="{{ route('logout') }}" style="display: inline-block; margin: 20px 30px;">
+                <span>LogOut</span>
+              </a>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <script>
+      const userRole = "{{ Auth::user()->role->name ?? '' }}";
+      const menuData = {
+        "menu": [
+          { "url": "/", "name": "Dashboard", "icon": "bx bx-home-smile", "role": ["admin", "user"] },
+          { "url": "/order", "name": "Order", "icon": "bx bx-cart", "role": ["admin", "user"] },
+          { "url": "#", "name": "Factory Setting", "icon": "bx bx-buildings", "role": ["admin"], "submenu": [
+            { "url": "/warehouses", "name": "Warehouse", "role": ["admin"] },
+            { "url": "/user", "name": "User", "role": ["admin"] },
+            { "url": "/customers", "name": "Customers", "role": ["admin", "customer"] },
+            { "url": "/cities", "name": "Cities", "role": ["admin"] }
+          ] },
+          { "url": "#", "name": "Material Setting", "icon": "bx bx-cog", "role": ["admin"], "submenu": [
+            { "url": "/shades", "name": "Shades", "role": ["admin"] },
+            { "url": "/patterns", "name": "Patterns", "role": ["admin"] },
+            { "url": "/sizes", "name": "Sizes", "role": ["admin"] },
+            { "url": "/embroideries", "name": "Embroidery", "role": ["admin"] },
+            { "url": "/products", "name": "Items", "role": ["admin"] }
+          ] }
+        ]
+      };
+
+      function createMenu(menuData, userRole) {
+        const menu = document.getElementById('menu');
+        menuData.menu.forEach(item => {
+          if (item.role.includes(userRole)) {
+            const li = document.createElement('li');
+            li.className = 'nav-item';
+            if (item.submenu) {
+              li.className += ' dropdown';
+              const dropdownLink = `<a class="nav-link dropdown-toggle" href="#" id="${item.name.replace(/\s+/g, '')}" data-bs-toggle="dropdown" aria-expanded="false"> <i class="menu-icon tf-icons ${item.icon}"></i> ${item.name}</a>`;
+              li.innerHTML = dropdownLink;
+              const dropdownMenu = document.createElement('ul');
+              dropdownMenu.className = 'dropdown-menu';
+              item.submenu.forEach(sub => {
+                if (sub.role.includes(userRole)) {
+                  const subLi = document.createElement('li');
+                  subLi.innerHTML = `<a class="dropdown-item" href="${sub.url}"> <i class="menu-icon tf-icons ${sub.icon}"></i> ${sub.name}</a>`;
+                  dropdownMenu.appendChild(subLi);
+                }
+              });
+              li.appendChild(dropdownMenu);
+            } else {
+              li.innerHTML = `<a class="nav-link" href="${item.url}"> <i class="menu-icon tf-icons ${item.icon}"></i>${item.name}</a>`;
+            }
+            menu.appendChild(li);
+          }
+        });
+      }
+
+      createMenu(menuData, userRole);
+      </script>
+
+      </body>
+      </html>
+
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <!-- <div class="navbar-nav align-items-center">
@@ -42,21 +125,14 @@ $navbarDetached = ($navbarDetached ?? '');
           </div>
         </div> -->
         <!-- /Search -->
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
-<!-- 
-          <!-- Place this tag where you want the button to render. -->
-          <!-- <li class="nav-item lh-1 me-4">
-            <a class="github-button" href="{{config('variables.repository')}}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themeselection/sneat-html-laravel-admin-template-free on GitHub">Star</a>
-          </li> -->
-
-          <!-- User -->
-          <!-- <li class="nav-item navbar-dropdown dropdown-user dropdown">
+    <!-- <ul class="navbar-nav flex-row align-items-center ms-auto">
+          <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
                 <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
               </div>
-            </a> -->
-            <!-- <ul class="dropdown-menu dropdown-menu-end">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
               <li>
                 <a class="dropdown-item" href="javascript:void(0);">
                   <div class="d-flex">
@@ -66,13 +142,13 @@ $navbarDetached = ($navbarDetached ?? '');
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                       <h6 class="mb-0">John Doe</h6> -->
-                      <!-- <small class="text-muted">Admin</small>
+                       <h6 class="mb-0">John Doe</h6>
+                       <small class="text-muted">Admin</small>
                     </div>
                   </div>
                 </a>
-              </li> --> 
-              <!-- <li>
+              </li> 
+              <li>
                 <div class="dropdown-divider my-1"></div>
               </li>
               <li>
@@ -96,17 +172,16 @@ $navbarDetached = ($navbarDetached ?? '');
               <li>
                 <div class="dropdown-divider my-1"></div>
               </li>
-              <li> --> 
+              <li> 
               <li>
-              <a href="{{ route('logout') }}" style="display: inline-block; margin: 20px 30px;">
-                <span>LogOut</span>
-              </a>
-            </li>
+                <a href="{{ route('logout') }}" style="display: inline-block; margin: 20px 30px;">
+                  <span>LogOut</span>
+                </a>
+              </li>
             </ul>
           </li>
-          <!--/ User -->
         </ul>
-      </div>
+      </div> -->
 
       @if(!isset($navbarDetached))
     </div>

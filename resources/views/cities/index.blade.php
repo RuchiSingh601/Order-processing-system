@@ -29,7 +29,7 @@
                 <tr>
                     <td>{{ $city->city_name }}</td>
                     <td>{{ $city->delivery_charge }}</td>
-                    <td>{{ $city->is_active == 1 ? 'Active' : "In-Active" }}</td>
+                    <td>{{ $city->status == 'Y' ? 'Active' : "In-Active" }}</td>
                             <td>
                             <a href="{{ route('cities.edit', $city->id) }}" title="Edit"><i class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></i></a>
                                 

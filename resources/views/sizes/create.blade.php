@@ -24,18 +24,18 @@
             </select>
     </div>
     <div class="col-md-5">
-            <label class="ms-5">Size Name:</label>
+            <label class="ms-1">Size Name:</label>
             <input type="text" name="name" class="form-control" required>
     </div>
     </div>
          <div class="row mb-3 ms-1 me-1">
             <div class="col-md-5">
-            <label class="ms-1">Code(optional):</label>
+            <label class="ms-1">Code:</label>
             <input type="text" name="code" class="form-control">
             </div>
 
             <div class="col-md-5">
-            <label class="ms-5">Description:</label>
+            <label class="ms-1">Description:</label>
             <textarea name="description" class="form-control"></textarea>
             </div>
         </div>

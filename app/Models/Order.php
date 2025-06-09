@@ -19,7 +19,7 @@ class Order extends Model
         'customer_id',
         'delivery_charge',
         'discount',
-        'payable_amount'
+        'paid_amount'
     ];
     public function items()
     {

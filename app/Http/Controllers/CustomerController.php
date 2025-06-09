@@ -19,6 +19,7 @@ class CustomerController extends Controller {
     // Show Create Customer Form
     public function create(Request $request)
     {
+        // get path where it' request come.
         $referrer = $request->headers->get('referer');
         Log::info($referrer);
         if($referrer){
@@ -38,7 +39,7 @@ class CustomerController extends Controller {
             // Log::info('1');
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:customers', 
+                'email' => 'nullable|email|unique:customers', 
                 'mobile_number' => 'required|min:10|max:12|unique:customers',
                 'address' => 'nullable|string|max:255',
                 'city_id' => 'required|exists:cities,id',
@@ -70,6 +71,7 @@ class CustomerController extends Controller {
            'anniversary_date' => $request->anniversary_date
         ]);
         
+        // After get redirect path remove it.
         $referrerPath = session('referrerPath');
         session()->forget('referrerPath');
         Log::info($referrerPath);
@@ -95,7 +97,7 @@ class CustomerController extends Controller {
          Log::info('1');
         $validated = $request->validate([
             'name' => 'required|string|max:255', 
-            'email' => 'required|email|unique:customers,email,' . $id, 
+            'email' => 'nullable|email|unique:customers,email,' . $id, 
             'mobile_number' => 'required|min:10|max:12|unique:customers,mobile_number,' . $id,
             'address' => 'nullable|string|max:255',
             'city_id' => 'required|exists:cities,id',

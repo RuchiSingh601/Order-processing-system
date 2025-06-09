@@ -131,7 +131,7 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td  style="width: 10%;"><input type="text" name="products[0][price]" class="form-control price" readonly style="padding: 3px"></td>
+                                <td  style="width: 10%;"><input type="number" name="products[0][price]" class="form-control price" style="padding: 3px"></td>
                                 <td style="width: 10%;"><input type="number" name="products[0][quantity]" class="form-control quantity" value="1" style="padding: 3px"></td>
                                 <td style="width: 1%;"><input type="number" name="products[0][other_charges]" class="form-control other_charges" value="0" style="padding: 3px"></td>
                                 <td style="width: 9%;"><input type="text" name="products[0][total_charges]" class="form-control total" readonly style="padding: 3px"></td>
@@ -193,7 +193,7 @@
                     <select name="status" class="form-control">
                         <option value="pending" selected>Pending</option>
                         <option value="completed">Completed</option>
-                        <option value="completed">Delivered</option>
+                        <!-- <option value="completed">Delivered</option> -->
                     </select>
                 </div>
                 
@@ -208,8 +208,8 @@
                 </div>
                 
                 <div class="col-md-12 mt-4">
-                    <label>Payable Amount</label>
-                        <input type="text" name="payable_amount" id="payableAmount" class="form-control" value="{{ old('payable_amount') }}"></input>
+                    <label>Paid Amount</label>
+                        <input type="text" name="paid_amount" id="paidAmount" class="form-control" value="{{ old('paid_amount') }}"></input>
                 </div>
                 
                 <div class="col-md-12 mt-4">
@@ -282,7 +282,7 @@
                 @endforeach
             </select>
         </td>
-            <td><input type="text" name="products[${rowIndex}][price]" class="form-control price" readonly></td>
+            <td><input type="text" name="products[${rowIndex}][price]" class="form-control price"></td>
             <td><input type="number" name="products[${rowIndex}][quantity]" class="form-control quantity" value="1"></td>
             <td><input type="number" name="products[${rowIndex}][other_charges]" class="form-control other_charges" value="0"></td>
             <td><input type="text" name="products[${rowIndex}][total_charges]" class="form-control total" readonly></td>
@@ -392,7 +392,13 @@
         const quantity = parseFloat(row.querySelector('.quantity').value) || 1;
         const other = parseFloat(row.querySelector('.other_charges').value) || 0;
         
-        row.querySelector('.price').value = price;
+        const changedElement = e.target;
+        if (changedElement.classList.contains('price')) {
+            price = row.querySelector('.price').value;
+        }else{
+            row.querySelector('.price').value = price;
+        }
+       
         row.querySelector('.total').value = ((price * quantity) + other).toFixed(2);
 
         calculateTotalAmount();

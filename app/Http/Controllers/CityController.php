@@ -14,8 +14,17 @@ class CityController extends Controller
     }
 
   
-    public function create()
+    public function create(Request $request)
     {
+        // get path where it' request come.
+        $referrer = $request->headers->get('referer');
+        //Log::info($referrer);
+        if($referrer){
+            $referrerPath = parse_url($referrer, PHP_URL_PATH);
+          //  Log::info($referrerPath);
+            session(['referrerPathCity' => $referrerPath]);
+        }
+
        return view('cities.create');   
     }
 
@@ -26,24 +35,39 @@ class CityController extends Controller
         //     'delivery_charge' => 'required|numeric', 
         //     'status' => 'required'
         // ]);
-
+        $request->merge([
+             'status' => $request->status == 'Active' ? 'Y' : 'N',
+        ]);
         City::create($request->all());
-        return redirect()->route('cities.index')->with('success', 'City created successfully.');
+        
+        // After get redirect path remove it.
+        $referrerPath = session('referrerPathCity');
+        session()->forget('referrerPathCity');
+        //Log::info($referrerPath);
+
+        if ($referrerPath && strpos($referrerPath, '/customers/create') !== false) {
+            return redirect()->route('customers.create')->with('success', 'City created successfully.');
+        } else {
+            return redirect()->route('cities.index')->with('success', 'City created successfully.');
+        }
     }
 
-    public function edit(City $city)
+    public function edit($id)
     {
-         $customer = Customer::findOrFail($id);
-         $cities = City::where('status', 'Active')->get();
-         return view('customers.edit', compact('customer', 'cities'));
+        $city = City::findOrFail($id);
+        return view('cities.edit', compact('city'));
     }
    
     public function update(Request $request, City $city) 
       {
          $request->validate([
-            'city_name' => 'required|unique:cities', 
+            'city_name' => 'required|string|unique:cities,city_name,' . $city->id,
             'delivery_charge' => 'required|numeric', 
             'status' => 'required'
+        ]);
+        
+        $request->merge([
+            'status' => $request->status == 'Active' ? 'Y' : 'N',
         ]);
         $city->update($request->all());
         return redirect()->route('cities.index')->with('success', 'City updated successfully.');

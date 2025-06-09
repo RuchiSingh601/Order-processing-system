@@ -29,8 +29,8 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Email*</label>
-                            <input type="email" name="email" class="form-control" value="{{ old('email', $customer->email) }}" required>
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ old('email', $customer->email) }}">
                             @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

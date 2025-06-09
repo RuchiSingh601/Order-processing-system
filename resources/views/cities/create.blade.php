@@ -36,15 +36,14 @@
                         </div>
                     </div>
 
-                   
                     <div class="col-md-4">
-                        <input type="checkbox" class="form-check-input ms-5 mt-5" id="is_active" name="is_active" value="Active">
-                        <label class="form-check-label mt-5" for="is_active">Is Active</label>
-                    </div> 
+                        <input type="checkbox" class="form-check-input mt-5 ms-5" id="status" name="status" value="Active">
+                        <label class="form-check-label mt-5" for="status">Is Active</label>
+                    </div>
                 </div>
             
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Add City</button>
                 </div>
             </br>
             </form>

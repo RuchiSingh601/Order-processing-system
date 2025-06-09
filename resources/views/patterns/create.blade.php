@@ -24,18 +24,18 @@
             </select>
             </div>
             <div class="col-md-5">
-                <label class="form-label ms-5">Pattern Name:</label>
-                <input type="text" name="name" class="form-control ms-5" required>
+                <label class="form-label  ms-1">Pattern Name:</label>
+                <input type="text" name="name" class="form-control" required>
             </div>
             </div>
             <div class="row mb-3 ms-1 me-1">
             <div class="col-md-5">
-                <label class="form-label ">Code(optional):</label>
+                <label class="form-label ">Code:</label>
                 <input type="text" name="code" class="form-control"  required>
             </div>
             <div class="col-md-5">
-                <label class="form-label ms-5">Description:</label>
-                <textarea name="description" class="form-control ms-5"></textarea>
+                <label class="form-label ms-1">Description:</label>
+                <textarea name="description" class="form-control"></textarea>
             </div>
             </div>
             <div class="row mb-3 ms-1 me-1">
@@ -44,10 +44,10 @@
                 <input type="number" name="base_price" class="form-control">
             </div>
             </div>
-             <div class="col-md-5">
-            <input type="checkbox" class="form-check-input mt-5 ms-5" id="status" name="status" value="Active">
-            <label class="form-check-label mt-5" for="status">Is Active</label>
-         </div>
+            <div class="col-md-5">
+                <input type="checkbox" class="form-check-input mt-5 ms-5" id="status" name="status" value="Active">
+                <label class="form-check-label mt-5" for="status">Is Active</label>
+            </div>
          <div class="d-flex justify-content-center px-4">
         <button type="submit" class="btn btn-primary mt-3">Add Pattern</button>
     </div>

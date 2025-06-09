@@ -28,8 +28,8 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Email*</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control">
                             @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -63,18 +63,20 @@
                            
                         </div>
                     </div>
-                
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="city_id">City*</label>
-                             <select name="city_id" class="form-control select2" required>
-                                <option value="">Select</option>
+    
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div style="flex-grow: 1;">
+                            <label>City*</label>
+                             <select name="city_id" class="form-control product-select select2" required>
+                                <option value="">Select City</option>
                                 @foreach($cities as $city)
-                                    <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                      <option value="{{ $city->id }}">{{ $city->city_name }}</option>
                                 @endforeach
-                            </select>
-                            
+                            </select>         
                         </div>
+                        <button type="button" onclick="addCity()" class="btn btn-success ms-2 mt-4 px-2 py-1">
+                            <i class="bx bx-plus text-white" style="font-size: 1.2 rem;"></i>
+                        </button>
                     </div>
                                     
                 </div>
@@ -105,7 +107,7 @@
                      <div class="row mb-3">
                          <div class="col-md-4">
                              <div class="form-group">
-                                <label>Anniversary_date</label>
+                                <label>Anniversary Date</label>
                                 <input type="date" name="anniversary_date" class="form-control">
                             </div>
                         </div>
@@ -123,6 +125,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    function addCity() {
+        // Redirect to add city page or open modal
+        window.location.href = "{{ route('cities.create') }}";
+        // OR open modal here if using Bootstrap modal
+    }
+</script>
 
 
 @endsection

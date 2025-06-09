@@ -30,7 +30,7 @@
                     <select name="customer_id" class="form-control product-select select2" onchange="handleCityChange(this)" required>
                         <option value="">Select</option>
                         @foreach($customers as $customer)
-                            <option value="{{ $customer->id }}" data-price="{{$customer->city->delivery_charge ?? 0 }}">{{ $customer->name }}</option>
+                            <option value="{{ $customer->id }}" data-price="{{$customer->city->delivery_charge ?? 0 }}" {{ isset($order) && $order->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -124,7 +124,7 @@
                                         </select>
                                     </td>
                                     <td style="width: 10%;">
-                                        <input type="text" name="products[{{ $index }}][price]" class="form-control price" value="{{ $item->price }}" style="padding: 3px" readonly>
+                                        <input type="text" name="products[{{ $index }}][price]" class="form-control price" value="{{ $item->price }}" style="padding: 3px">
                                     </td>
                                     <td style="width: 10%;">
                                         <input type="number" name="products[{{ $index }}][quantity]" class="form-control quantity" value="{{ $item->quantity }}" style="padding: 3px">
@@ -192,16 +192,16 @@
 
                     <div class="col-md-12 mt-4">
                             <label>Delivery Charge</label>
-                            <input type="number" name="delivery_charge" id="deliveryCharge" class="form-control" value="0" step="any">
+                            <input type="number" name="delivery_charge" id="deliveryCharge" class="form-control" value="{{$order->delivery_charge }}" step="any">
                     </div>
 
                      <div class="col-md-12 mt-4">
                             <label>Discount</label>
-                            <input type="number" name="discount" id="discount" class="form-control" value="0" step="any">
+                            <input type="number" name="discount" id="discount" class="form-control" value="{{$order->discount }}" step="any">
                     </div>
                     <div class="col-md-12 mt-4">
-                        <label>Payable Amount</label>
-                        <input type="text" name="payable_amount" id="payableAmount" class="form-control" value="{{ old('payable_amount') }}"></input>
+                        <label>Paid Amount</label>
+                        <input type="text" name="paid_amount" id="paidAmount" class="form-control" value="{{$order->paid_amount }}"></input>
                     </div>
 
                     <div class="col-md-12 mt-4">
@@ -384,8 +384,14 @@
 
         const quantity = parseFloat(row.querySelector('.quantity').value) || 1;
         const other = parseFloat(row.querySelector('.other_charges').value) || 0;
-
-        row.querySelector('.price').value = price;
+        
+        const changedElement = e.target;
+        if (changedElement.classList.contains('price')) {
+            price = row.querySelector('.price').value;
+        }else{
+            row.querySelector('.price').value = price;
+        }
+     
         row.querySelector('.total').value = ((price * quantity) + other).toFixed(2);
 
         calculateTotalAmount();

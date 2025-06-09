@@ -34,7 +34,7 @@
             @foreach($orders as $order)
             <tr>
                 @if(auth()->user()->role->name === 'admin')
-                    <td width="15">{{ $order->customer->name }}</td>
+                    <td width="15">{{ $order->customer ? $order->customer->name : '' }}</td>
                 @endif
                 <td width="15%">{{ $order->order_number }}</td>
                 <td width="10%">{{ $order->order_date }}</td>

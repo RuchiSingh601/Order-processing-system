@@ -71,7 +71,7 @@ class OrderController extends Controller
                 'total_amount' => 'required|numeric',
                 'customer_id' => 'required|string',
                 'discount' => 'nullable|numeric',
-                'payable_amount' => 'nullable|numeric',
+                'paid_amount' => 'nullable|numeric',
             ]);
 
             } catch (Exception $e) {
@@ -165,7 +165,7 @@ class OrderController extends Controller
             'total_amount' => 'required|numeric',
             'customer_id' => 'required|string',
             'discount' => 'nullable|numeric',
-            'payable_amount' => 'nullable|numeric',
+            'paid_amount' => 'nullable|numeric',
         ]);
 
         $user = Auth::user();
@@ -189,7 +189,7 @@ class OrderController extends Controller
         $order->total_amount = $validated['total_amount'];
         $order->customer_id = $validated['customer_id'];
         $order->delivery_charge = $validated['delivery_charge'];
-        $order->payable_amount = $validated['payable_amount'];
+        $order->paid_amount = $validated['paid_amount'];
         $order->discount = $validated['discount'];
         $order->save();
         // Log::info('4 : Complated');

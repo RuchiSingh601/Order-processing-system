@@ -267,6 +267,9 @@ class OrderController extends Controller
 
         ];
 
+        $pdf = Pdf::loadView('orders.order_pdf', $data)
+          ->setPaper('a4', 'portrait');
+
         // Load the view and generate PDF
         $pdf = Pdf::loadView('orders.order_pdf', $data);
 

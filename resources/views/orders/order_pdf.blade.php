@@ -61,8 +61,7 @@
             <h3><u>CUSTOMER COPY</u></h3>
                 <p style="font-size:12px; margin: 2px 0; text-align: center;">Manufacturers of O.T. Linen & Hospital Uniforms</p>
                 <p style="font-size:10px; margin: 2px 0; text-align: center;">Distributors: General Surgical Instruments, Ortho, Spine, E.N.T. etc</p>
-                <p style="font-size:10px; margin: 2px 0; text-align: center;">Monogram: Divine Care Hospital</p>
-
+               
         </div>
 		
 		<hr style="color: blue;">
@@ -112,7 +111,13 @@
                             @if($item->shade) <br/>{{ $label++ }}. Shades: {{ $item->shade->name ?? 'NA' }} @endif    
                             @if($item->size) <br/>{{ $label++ }}. Size: {{ $item->size->name ?? 'NA' }} @endif  
                             @if($item->pattern) <br/>{{ $label++ }}. Pattern: {{ $item->pattern->name ?? 'NA' }} @endif  
-                            @if($item->embroidery) <br/>{{ $label++ }}. Embroidery: {{ $item->embroidery->embroidery_name ?? 'NA' }} @endif  
+                            @if($item->embroidery) <br/>{{ $label++ }}. Embroidery: {{ $item->embroidery->embroidery_name ?? 'NA' }} 
+                                @if(isset($item->embroidery->base_price))
+                                (<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAw0lEQVR4nO2TPQ6BQRCGHzqtiBv4KURUnEFB4gYi4SjCEVQadxAkRNxAIQqln4S4gYRmJNt84tvd2YYnmWKa95nszMIfBwbA88va2Qj2MQR9PJABOsBdQhdAAgWqwEMkDZegOjCKqKsIttIPbQTzGDuY2AjaQC+iDhK8lL6ER2rGDpo+g7NA17iiFZB0Cfz05msg7Trx0QjcyN2PgZbr5G9ywEkEMyCFAvkQkgJwDiG5aEuKISRl4KYtqRifbaoh4Ld4Ac6qW7tGznjjAAAAAElFTkSuQmCC" 
+                            alt="Rupee" height="15" style="display: inline-block; vertical-align: middle;">
+                                {{ number_format($item->embroidery->base_price, 2) }})
+                                 @endif 
+                            @endif 
                         </div>
                     </td>
                     <td style="vertical-align: top; align-items: center;">

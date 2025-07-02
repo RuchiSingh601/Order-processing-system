@@ -106,6 +106,11 @@
                     <td style="vertical-align: top;">{{ $index + 1 }}</td>
                     <td style="text-align: left;">
                         {{ $item->product->name }}
+
+                        @if(isset($item->product->price))
+                        (<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAw0lEQVR4nO2TPQ6BQRCGHzqtiBv4KURUnEFB4gYi4SjCEVQadxAkRNxAIQqln4S4gYRmJNt84tvd2YYnmWKa95nszMIfBwbA88va2Qj2MQR9PJABOsBdQhdAAgWqwEMkDZegOjCKqKsIttIPbQTzGDuY2AjaQC+iDhK8lL6ER2rGDpo+g7NA17iiFZB0Cfz05msg7Trx0QjcyN2PgZbr5G9ywEkEMyCFAvkQkgJwDiG5aEuKISRl4KYtqRifbaoh4Ld4Ac6qW7tGznjjAAAAAElFTkSuQmCC" 
+                        alt="Rupee" height="15" style="display: inline-block; vertical-align: middle;">{{ number_format($item->product->price, 2) }})
+                        @endif
                         <div style="padding: 0px !important;padding-left: 13px !important;margin-top: -9px !important;}">
                             @php $label = 'A'; @endphp
                             @if($item->shade) <br/>{{ $label++ }}. Shades: {{ $item->shade->name ?? 'NA' }} @endif    

@@ -37,11 +37,13 @@
                     <td width="15">{{ $order->customer ? $order->customer->name : '' }}</td>
                 @endif
                 <td width="15%">{{ $order->order_number }}</td>
-                <td width="10%">{{ $order->order_date }}</td>
+                <!-- <td width="10%">{{ $order->order_date }}</td> -->
+                <td width="10%">{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                 <td width="10%">{{ $order->total_amount }}</td>
                 <td width="10%">{{ $order->paymentMethod->name ?? 'N/A' }}</td>
                 <td width="10%">{{ $order->status == 1 ? 'Pending' : 'Complete' }}</td>
-                <td width="10%">{{ $order->delivery_date }}</td>
+                <!-- <td width="10%">{{ $order->delivery_date }}</td> -->
+                <td width="10%">{{ \Carbon\Carbon::parse($order->delivery_date)->format('d/m/Y') }}</td>
                 <td width="15%">
                     <a href="{{ route('order.edit', $order->id) }}" title="Edit" class="me-1"><xi class="bx bx-edit-alt text-warning" style="font-size: 1.2rem;"></xi></a>
                    
@@ -54,7 +56,7 @@
                    
                     <a href="{{ route('order.pdf', $order->id) }}" title="Download Invoice"><i class="bx bxs-file-pdf text-danger" style="font-size: 1.2rem;"title="Download Invoice" class="me-1"></i></a>
                     
-                    <button type="button" id="shareWhatsapp" onclick="shareOnWhatsapp()" style="background: none; border: none; padding: 0;" title="Share on WhatsApp">
+                    <button type="button" id="shareWhatsapp" onclick="shareOnWhatsapp({{ $order->id ?? '' }})" style="background: none; border: none; padding: 0;" title="Share on WhatsApp">
                         <img src="{{ asset('assets/img/avatars/whatsap.jpg') }}" alt="WhatsApp" style="width: 24px; height: 24px; border-radius: 50%;">
                     </button>
                 </td>
@@ -67,9 +69,9 @@
 
 <script>
     
-    async function shareOnWhatsapp() {
+    async function shareOnWhatsapp(orderId) {
 
-        const orderId = "{{ $order->id ?? '' }}";
+       // const orderId = "{{ $order->id ?? '' }}";
         
         if (!orderId) {
             alert("Order ID not found in session.");
@@ -85,11 +87,12 @@
         // Replace with your actual logic to get the customer phone number
         const customerName = data.username;
         const customerPhone = data.mobile;
+        const orderNumber = data.orderNumber;
         
          // Trigger download
         const link = document.createElement('a');
         link.href = pdfUrl;
-        link.download = `Invoice ${customerName}.pdf`
+        link.download = `Invoice_${orderNumber}.pdf`
         link.click();
 
         // Custom message with customer name

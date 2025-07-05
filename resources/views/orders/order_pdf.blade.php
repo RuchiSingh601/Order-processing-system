@@ -60,7 +60,8 @@
             
             <h3><u>CUSTOMER COPY</u></h3>
                 <p style="font-size:12px; margin: 2px 0; text-align: center;">Manufacturers of O.T. Linen & Hospital Uniforms</p>
-                <p style="font-size:10px; margin: 2px 0; text-align: center;">Distributors: General Surgical Instruments, Ortho, Spine, E.N.T. etc</p>
+                <p style="font-size:10px; margin: 2px 0; text-align: center;">Distributors of General Surgical Instruments, Ortho, Spine, E.N.T. etc</p>
+                <p style="font-size:10px; margin: 2px 0; text-align: center;">www.divinecareindustries.com</p>
                
         </div>
 		
@@ -71,7 +72,7 @@
                     <p><strong>ORDER NO:</strong> {{ $order->order_number }}</p>
                 </td>
                 <td style="text-align: right;">
-                    <p><strong>ORDER DATE:</strong> {{ $order->order_date }}</p>
+                    <p><strong>ORDER DATE:</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</p>
                 </td>
             </table>
         </div>
@@ -91,7 +92,7 @@
                     <table class="details-table" style="margin-left: 8px;margin-top: -14px;">
                         <tr><td>Address:</td><td>{{ $customer->address }}</td></tr>
                         <tr><td>City:</td><td>{{ $customer->city->city_name }}</td></tr>
-                        <tr><td width="40%">Delivery Date:</td><td width="60%">{{ $order->delivery_date }}</td></tr>
+                        <tr><td width="40%">Delivery Date:</td><td width="60%"> {{ \Carbon\Carbon::parse($order->delivery_date)->format('d/m/Y') }}</td></tr>
                     </table>
                 </td>    
             </table>    

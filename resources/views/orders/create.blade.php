@@ -26,7 +26,7 @@
             <div class="row mb-3 px-4 align-items-center d-flex">
                 <div class="col-md-3">
                     <label>Order Number</label>
-                    <input type="text" name="order_number" value="ORD{{ time() }}" class="form-control" readonly>
+                    <input type="text"name="order_number" value="{{ $generatedOrderNumber }}" class="form-control" readonly>
                 </div>
                 <div class="col-md-3">
                     <label>Order Date</label>

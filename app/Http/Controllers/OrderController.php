@@ -16,6 +16,8 @@ use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PDF;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
@@ -38,6 +40,58 @@ class OrderController extends Controller
 
      public function create()
      {
+
+
+        //  $lastOrder = \App\Models\Order::whereYear('created_at', date('Y'))
+        // ->where('order_number', 'like', 'ORD' . date('Y') . '%')
+        // ->orderBy('id', 'desc')
+        // ->first();
+
+        // $nextNumber = 1;
+
+        // //if ($lastOrder && preg_match('/ORD(\d{4})(\d+)/', $lastOrder->order_number, $matches)) {
+        // if ($lastOrder && preg_match('/ORD\/\d{2}-\d{2}\/(\d+)/', $lastOrder->order_number, $matches)) {
+
+        //     $lastSequence = (int)$matches[2];
+        //     $nextNumber = $lastSequence + 1;
+        // }
+
+        // $generatedOrderNumber = 'ORD' . date('Y') . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
+        // Get current financial year in format "25-26"
+        $currentYear = now()->year;
+        $currentMonth = now()->month;
+
+        if ($currentMonth >= 4) {
+            // April or later: financial year starts this year
+            $fyStart = $currentYear % 100;
+            $fyEnd = ($currentYear + 1) % 100;
+        } else {
+            // Jan-Mar: financial year started last year
+            $fyStart = ($currentYear - 1) % 100;
+            $fyEnd = $currentYear % 100;
+        }
+
+        $financialYear = sprintf('%02d-%02d', $fyStart, $fyEnd);
+
+        // Get the last order of the current financial year
+        $lastOrder = Order::where('order_number', 'LIKE', "ORD/$financialYear/%")
+                        ->orderBy('id', 'desc')
+                        ->first();
+
+        if ($lastOrder && preg_match('/ORD\/\d{2}-\d{2}\/(\d+)/', $lastOrder->order_number, $matches)) {
+            $lastSequence = (int)$matches[1];
+            $nextSequence = $lastSequence + 1;
+        } else {
+            $nextSequence = 1;
+        }
+
+        // Pad with leading zeros to 4 digits
+        $nextSequencePadded = str_pad($nextSequence, 4, '0', STR_PAD_LEFT);
+
+        // Final Order Number
+        $generatedOrderNumber = "ORD/$financialYear/$nextSequencePadded";
+
         $customers = Customer::with("city")->get();
         // $customers = User::all();
         $paymentMethods = PaymentMethod::where('status', 1)->get();
@@ -50,7 +104,7 @@ class OrderController extends Controller
 
         $order = null;
 
-        return view('orders.create', compact( 'customers', 'shades', 'patterns', 'sizes', 'embroideries', 'paymentMethods', 'products'));
+        return view('orders.create', compact( 'generatedOrderNumber','customers', 'shades', 'patterns', 'sizes', 'embroideries', 'paymentMethods', 'products'));
      }
 
      public function store(Request $request)
@@ -61,6 +115,7 @@ class OrderController extends Controller
          try {
 
             Log::info('1');
+
             $request->validate([
                 'order_number' => 'required|string',
                 'order_date' => 'required|date',
@@ -72,13 +127,13 @@ class OrderController extends Controller
                 'customer_id' => 'required|string',
                 'discount' => 'nullable|numeric',
                 'paid_amount' => 'nullable|numeric',
+                // 'products' => 'required|array',
             ]);
 
-            } catch (Exception $e) {
-                 Log::error($e->getMessage());
-
-                 //return redirect()->back()->with('error', 'Error creating order: ' . $e->getMessage());
-            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Error creating order: ' . $e->getMessage());   
+        }
 
             $user = Auth::user();
 
@@ -88,6 +143,11 @@ class OrderController extends Controller
             }
 
             $request->merge([
+                'order_number' => $request->order_number,
+                'order_date' => $request->order_date,
+                'delivery_date' => $request->delivery_date,
+                'user_id' => $user->id,
+                'warehouse_id' => $warehouse_id,
                 'status' => 1,
                 'user_id' =>$user->id,
                 'warehouse_id' => $warehouse_id
@@ -297,7 +357,7 @@ class OrderController extends Controller
 
         // Define the directory and file path
         $directory = 'public/invoices'; // Store in public storage
-        $pdfFileName = 'invoice_' . $order->customer->name . '.pdf';
+        $pdfFileName = 'invoice_' . $order->order_number . '.pdf';
         $pdfPath = $directory . '/' . $pdfFileName;
 
         // Ensure the directory exists
@@ -314,7 +374,8 @@ class OrderController extends Controller
         return response()->json([
             'url' => $pdfUrl,
             'username' =>$order->customer->name,
-            'mobile' =>$order->customer->mobile_number
+            'mobile' =>$order->customer->mobile_number,
+            'orderNumber' => $order->order_number
         ]);
     }
 

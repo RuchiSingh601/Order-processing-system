@@ -96,7 +96,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $customer->name }}</td>
-                                        <td>{{ $customer->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $customer->created_at->format('d-m-Y') }}</td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -122,7 +122,7 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>#{{ $order->id }}</td>
                                         <td>{{ $order->customer->name ?? 'N/A' }}</td>
-                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $order->created_at->format('d-m-Y') }}</td>
                                         <td>{{ number_format($order->total_amount, 2) }}</td>
                                     </tr>
                                 @empty
@@ -149,7 +149,7 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>#{{ $order->id }}</td>
                                         <td>{{ $order->customer->name ?? 'N/A' }}</td>
-                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $order->created_at->format('d-m-Y') }}</td>
                                         <td>{{ number_format($order->total_amount, 2) }}</td>
                                     </tr>
                                 @empty
